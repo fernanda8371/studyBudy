@@ -26,17 +26,15 @@ struct WelcomeView: View {
             // Texto de bienvenida alineado a la izquierda
             VStack(alignment: .leading, spacing: 8) {
                 Text("Bienvenido a")
-                    .font(.title2)
+                    .font(.system(size: isIpad ? 40 : 24, weight: .regular)) // Tamaño adaptable
                     .foregroundColor(.white)
-                    .frame(maxWidth: .infinity, alignment: .leading) // Alinea el texto a la izquierda
                 
                 Text("StudyMate")
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
+                    .font(.system(size: isIpad ? 60 : 34, weight: .bold)) // Tamaño adaptable
                     .foregroundColor(.white)
                     .frame(maxWidth: .infinity, alignment: .leading) // Alinea el texto a la izquierda
             }
-            .padding(.horizontal, 40) // Agrega padding horizontal para mejor visibilidad
+            .padding(.horizontal, isIpad ? 155 : 40) // Padding adaptable para iPad
             
             Spacer()
             
@@ -53,7 +51,7 @@ struct WelcomeView: View {
                 
                 Boton(
                     title: "Ingresar",
-                    backgroundColor: .blue,
+                    backgroundColor: Color(hex: "#2AAFFA"),
                     textColor: .white,
                     borderColor: .white,
                     action: {
@@ -65,12 +63,16 @@ struct WelcomeView: View {
             
             Spacer()
         }
-       
+        .background(Color(hex: "#2AAFFA"))
         .edgesIgnoringSafeArea(.all) // Para que el fondo cubra toda la pantalla
+    }
+    
+    // Computed property to detect if the device is an iPad
+    private var isIpad: Bool {
+        UIDevice.current.userInterfaceIdiom == .pad
     }
 }
 
 #Preview {
     WelcomeView()
 }
-
