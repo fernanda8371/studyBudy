@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>API_KEY</key>
+	<string>AIzaSyDgQWROpHYNUi__x_eWSqfp7vvkh8rwlmM</string>
+	<key>GCM_SENDER_ID</key>
+	<string>55253928763</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.fervasquezc.studyBudy</string>
+	<key>PROJECT_ID</key>
+	<string>studymate-c9c2d</string>
+	<key>STORAGE_BUCKET</key>
+	<string>studymate-c9c2d.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:55253928763:ios:96377b358bb9efa7b8051e</string>
+</dict>
+</plist>

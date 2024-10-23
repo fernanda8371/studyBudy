@@ -1,13 +1,10 @@
-//
-//  WelcomeView.swift
-//  studyBudy
-//
-//  Created by José Ruiz on 22/10/24.
-//
-
 import SwiftUI
+import GoogleSignIn
+import FirebaseAuth
 
 struct WelcomeView: View {
+    let authentication = Authentication() // Instancia de la estructura de autenticación
+    
     var body: some View {
         VStack {
             Spacer()
@@ -40,24 +37,46 @@ struct WelcomeView: View {
             
             // Botones usando el componente personalizado
             VStack(spacing: 16) {
-                Boton(
-                    title: "Google",
-                    backgroundColor: .green,
-                    textColor: .white,
-                    action: {
-                        // Acción del botón Google
-                    }
-                )
                 
-                Boton(
-                    title: "Ingresar",
-                    backgroundColor: Color(hex: "#2AAFFA"),
-                    textColor: .white,
-                    borderColor: .white,
-                    action: {
-                        // Acción del botón Ingresar
+                // Botón de Google con funcionalidad de login
+                Button {
+                    Task {
+                        do {
+                            try await authentication.googleOauth()
+                            print("Inicio de sesión exitoso")
+                        } catch {
+                            print("Error al iniciar sesión: \(error.localizedDescription)")
+                        }
                     }
-                )
+                } label: {
+                    HStack {
+                      
+                        Text("Google")
+                            .font(.title3)
+                            .fontWeight(.medium)
+                            .frame(width: 327, height: 50) // Tamaño específico
+                            .padding()
+                            .background(Color.green) // Color de fondo verde
+                            .cornerRadius(55) // Borde redondeado
+                            .foregroundColor(.white) // Color del texto blanco
+                    }
+                }
+                
+                // Botón "Ingresar"
+                Button(action: {
+                    // Acción del botón Ingresar
+                }) {
+                    Text("Ingresar")
+                        .font(.title3)
+                        .fontWeight(.medium)
+                        .frame(width: 327, height: 50) // Tamaño específico
+                        .padding()
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 55)
+                                .stroke(Color.white, lineWidth: 2) // Borde blanco con grosor de 2
+                        )
+                        .foregroundColor(.white) // Color del texto blanco
+                }
             }
             .padding(.horizontal, 40)
             
@@ -76,3 +95,4 @@ struct WelcomeView: View {
 #Preview {
     WelcomeView()
 }
+
