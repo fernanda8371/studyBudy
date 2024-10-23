@@ -8,5 +8,6 @@
 import Foundation
 
 class API {
-    static var baseURL = ""
+    static var baseURL = "https://"
+    
 }
