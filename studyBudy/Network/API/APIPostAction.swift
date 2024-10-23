@@ -12,3 +12,4 @@ protocol APIPostAction : APIActionWithBody {}
 extension APIPostAction {
     var httpMethod: String { "POST" }
 }
+
