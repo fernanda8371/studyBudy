@@ -11,13 +11,13 @@
 		C726DBCB2CC7FBFD00E825D6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C726DBCA2CC7FBFD00E825D6 /* ContentView.swift */; };
 		C726DBCD2CC7FC0000E825D6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C726DBCC2CC7FC0000E825D6 /* Assets.xcassets */; };
 		C726DBD02CC7FC0000E825D6 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C726DBCF2CC7FC0000E825D6 /* Preview Assets.xcassets */; };
-		C759A00A2CC87AA80078A20C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C759A0092CC87AA80078A20C /* GoogleService-Info.plist */; };
 		C759A00C2CC87AF70078A20C /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = C759A00B2CC87AF70078A20C /* FirebaseAuth */; };
 		C759A00E2CC87AF70078A20C /* FirebaseAuthCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = C759A00D2CC87AF70078A20C /* FirebaseAuthCombine-Community */; };
 		C759A0102CC87AF70078A20C /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = C759A00F2CC87AF70078A20C /* FirebaseDatabase */; };
 		C759A0122CC87AF70078A20C /* FirebaseDynamicLinks in Frameworks */ = {isa = PBXBuildFile; productRef = C759A0112CC87AF70078A20C /* FirebaseDynamicLinks */; };
 		C759A0172CC87C340078A20C /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = C759A0162CC87C340078A20C /* GoogleSignIn */; };
 		C759A0192CC87C340078A20C /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = C759A0182CC87C340078A20C /* GoogleSignInSwift */; };
+		C759A06C2CC973420078A20C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C759A06B2CC973420078A20C /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,7 +26,8 @@
 		C726DBCA2CC7FBFD00E825D6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		C726DBCC2CC7FC0000E825D6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C726DBCF2CC7FC0000E825D6 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		C759A0092CC87AA80078A20C /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		C759A06A2CC966D50078A20C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		C759A06B2CC973420078A20C /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -72,6 +73,7 @@
 		C726DBC72CC7FBFD00E825D6 /* studyBudy */ = {
 			isa = PBXGroup;
 			children = (
+				C759A06A2CC966D50078A20C /* Info.plist */,
 				C759A0062CC877520078A20C /* Other */,
 				7190840C2CC7FEDC00CD18A8 /* Network */,
 				7190840B2CC7FED400CD18A8 /* Model */,
@@ -96,7 +98,7 @@
 		C759A0062CC877520078A20C /* Other */ = {
 			isa = PBXGroup;
 			children = (
-				C759A0092CC87AA80078A20C /* GoogleService-Info.plist */,
+				C759A06B2CC973420078A20C /* GoogleService-Info.plist */,
 			);
 			path = Other;
 			sourceTree = "<group>";
@@ -169,9 +171,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C759A06C2CC973420078A20C /* GoogleService-Info.plist in Resources */,
 				C726DBD02CC7FC0000E825D6 /* Preview Assets.xcassets in Resources */,
 				C726DBCD2CC7FC0000E825D6 /* Assets.xcassets in Resources */,
-				C759A00A2CC87AA80078A20C /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -320,6 +322,7 @@
 				DEVELOPMENT_TEAM = 396PMYFZAN;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = studyBudy/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -349,6 +352,7 @@
 				DEVELOPMENT_TEAM = 396PMYFZAN;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = studyBudy/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
