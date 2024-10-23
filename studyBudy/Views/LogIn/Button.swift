@@ -12,6 +12,8 @@ struct Boton: View {
     var backgroundColor: Color
     var textColor: Color
     var borderColor: Color? = nil
+    var width: CGFloat = 500
+    var height: CGFloat = 60
     var action: () -> Void
     
     var body: some View {
@@ -19,7 +21,7 @@ struct Boton: View {
             Text(title)
                 .font(.title3)
                 .fontWeight(.medium)
-                .frame(width: 500, height: 60)
+                .frame(width: width, height: height)
                 .padding()
                 .background(backgroundColor)
                 .cornerRadius(55)
