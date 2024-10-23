@@ -15,7 +15,7 @@ struct SignInView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                Color(hex: "#2AAFFA")
+                Color(.white)
                     .ignoresSafeArea()
 
                 VStack(spacing: 30) {
@@ -32,20 +32,22 @@ struct SignInView: View {
                     // Titulo
                     Text("Bienvenido")
                         .font(.system(size: 45, weight: .bold))
-                        .foregroundColor(.white)
+                        .foregroundColor(Color(hex: "#21548D"))
                         .padding(.bottom, 10)
 
                     // Email
                     VStack(alignment: .leading, spacing: 5) {
                         Text("Ingresa tu correo")
                             .font(.system(size: 20))
-                            .foregroundColor(.white)
+                            .foregroundColor(Color(hex: "#21548D"))
+                            .bold()
+                            .padding()
                         
                         TextField("Ingresa tu correo", text: $email)
                             .padding()
                             .background(Color.white)
                             .cornerRadius(10)
-                            .shadow(color: .gray.opacity(0.2), radius: 5, x: 0, y: 5)
+                            .shadow(color: .gray.opacity(0.5), radius: 5, x: 0, y: 5)
                             .frame(maxWidth: 500)
                     }
                     .padding(.horizontal)
@@ -54,13 +56,16 @@ struct SignInView: View {
                     VStack(alignment: .leading, spacing: 5) {
                         Text("Ingresa tu contraseña")
                             .font(.system(size: 20))
-                            .foregroundColor(.white)
+                            .foregroundColor(Color(hex: "#21548D"))
+                            .bold()
+                            .padding()
+                        
                         
                         SecureField("Ingresa tu contraseña", text: $password)
                             .padding()
                             .background(Color.white)
                             .cornerRadius(10)
-                            .shadow(color: .gray.opacity(0.2), radius: 5, x: 0, y: 5)
+                            .shadow(color: .gray.opacity(0.5), radius: 5, x: 0, y: 5)
                             .frame(maxWidth: 500)
                     }
                     .padding(.horizontal)
@@ -70,18 +75,16 @@ struct SignInView: View {
                     HStack {
                         Text("No tienes cuenta?")
                             .font(.system(size: 18))
-                            .foregroundColor(.white)
+                            .foregroundColor(Color(hex: "#21548D"))
                         
-                        NavigationLink(destination: MainTabView()) {
+                        NavigationLink(destination: SignUpView()) {
                             Text("Sign Up")
                                 .font(.system(size: 18))
                                 .bold()
                                 .underline()
-                                .foregroundColor(.white)
+                                .foregroundColor(Color(hex: "#21548D"))
                         }
                     }
-                    .padding(.top, 10)
-
                     // Continue Button
                     Button(action: {
                         isActive = true
@@ -90,7 +93,7 @@ struct SignInView: View {
                             .font(.system(size: 22, weight: .bold))
                             .foregroundColor(.white)
                             .frame(maxWidth: 500)
-                            .frame(height: 60)
+                            .frame(height: 55)
                             .background(Color(hex: "#21548D"))
                             .cornerRadius(10)
                             .shadow(color: .gray.opacity(0.3), radius: 5, x: 0, y: 5)
@@ -100,7 +103,8 @@ struct SignInView: View {
                     Spacer()
                 }
                 .navigationDestination(isPresented: $isActive) {
-                    WelcomeView()
+                    HomeView()
+                        .navigationBarBackButtonHidden(true)
                 }
             }
         }
