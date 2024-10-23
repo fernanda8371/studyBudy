@@ -7,7 +7,9 @@
 
 import SwiftUI
 
-struct RegistroView: View {
+struct SignUpView: View {
+    @State private var isActive = false
+    
     @State private var nombre: String = ""
     @State private var correo: String = ""
     @State private var contraseña: String = ""
@@ -23,6 +25,7 @@ struct RegistroView: View {
             
             Text("Por favor, ayúdanos a continuar con tu registro llenando tus datos.")
                 .font(.system(size: 20))
+                .foregroundStyle(Color(hex: "#21548D"))
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 60)
                 .padding(.bottom, 20)
@@ -32,7 +35,8 @@ struct RegistroView: View {
                 VStack(alignment: .leading, spacing: 5) {
                     Text("Nombre")
                         .font(.system(size: 20, weight: .bold))
-                        .foregroundColor(Color.white)
+                        .foregroundColor(Color(hex: "#21548D"))
+                        .padding()
                     
                     TextField("Nombre", text: $nombre)
                         .padding()
@@ -46,7 +50,8 @@ struct RegistroView: View {
                 VStack(alignment: .leading, spacing: 5) {
                     Text("Correo")
                         .font(.system(size: 20, weight: .bold))
-                        .foregroundColor(Color.white)
+                        .foregroundColor(Color(hex: "#21548D"))
+                        .padding()
 
                     TextField("Correo", text: $correo)
                         .padding()
@@ -60,7 +65,8 @@ struct RegistroView: View {
                 VStack(alignment: .leading, spacing: 5) {
                     Text("Contraseña")
                         .font(.system(size: 20, weight: .bold))
-                        .foregroundColor(Color.white)
+                        .foregroundColor(Color(hex: "#21548D"))
+                        .padding()
 
                     SecureField("Contraseña", text: $contraseña)
                         .padding()
@@ -73,7 +79,7 @@ struct RegistroView: View {
             .padding(.bottom, 40)
             
             Button(action: {
-                // Acción al presionar el botón
+                isActive = true
             }) {
                 Text("Continuar")
                     .font(.system(size: 22, weight: .bold))
@@ -87,17 +93,21 @@ struct RegistroView: View {
             .padding(.bottom, 40)
             
             Spacer()
+                .navigationDestination(isPresented: $isActive) {
+                    HomeView()
+                        .navigationBarBackButtonHidden(true)
+                }
         }
-        .background(Color(hex: "#2AAFFA")) // Color de fondo personalizado
+        .background(.white)
         .edgesIgnoringSafeArea(.all)
     }
 }
 
 
 
-struct RegistroView_Previews: PreviewProvider {
+struct SignUpView_Previews: PreviewProvider {
     static var previews: some View {
-        RegistroView()
+        SignUpView()
     }
 }
 
