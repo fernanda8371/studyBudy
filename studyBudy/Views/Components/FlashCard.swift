@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct FlashCard: View {
+    @State var cardVM = CardViewModel()
     var backgroundColor: Color = Color.white
     var borderColor: Color? = nil
     var text: String = "Sample Flashcard Text "
@@ -35,7 +36,7 @@ struct FlashCard: View {
                         }
                     )
                 
-                // Text overlay with improved wrapping
+               
                 Text(text)
                     .font(.system(size: min(18, geometry.size.width * 0.05), weight: .medium))
                     .multilineTextAlignment(.center)
@@ -44,7 +45,7 @@ struct FlashCard: View {
                     .frame(maxWidth: geometry.size.width * 0.85, maxHeight: geometry.size.height * 0.45)
             }
         }
-        .frame(height: 250) // Set a default height for better appearance in previews
+        .frame(height: 250)
     }
 }
 
