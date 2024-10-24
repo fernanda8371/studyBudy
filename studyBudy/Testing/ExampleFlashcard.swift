@@ -10,6 +10,7 @@ import SwiftUI
 struct ExampleFlashCard: View {
     @State var cardVM = CardViewModel()
     @State private var currentCardText: String = "Cargando..."
+    @Binding var text : String
     
     var body: some View {
         ZStack {
@@ -35,7 +36,7 @@ struct ExampleFlashCard: View {
                                 .padding(.vertical, 10)
                                 
                                 // TextEditor for input
-                                TextEditor(text: $currentCardText)
+                                TextEditor(text: $text)
                                     .scrollContentBackground(.hidden)
                                     .lineSpacing(15)
                                     .padding(.horizontal, 30)
@@ -66,7 +67,8 @@ struct ExampleFlashCard: View {
 }
 
 #Preview {
-    ExampleFlashCard()
+    @Previewable @State var sampleText = "Texto de ejemplo para la tarjeta"
+    ExampleFlashCard(text: $sampleText)
 }
 
 
