@@ -15,13 +15,9 @@ struct PomodoroView: View {
     
     var body: some View {
         VStack {
+            Spacer()
             HStack {
-                Button(action: {
-                    // Acción para regresar
-                }) {
-                    Image(systemName: "arrow.left")
-                        .foregroundColor(.black)
-                }
+
                 Spacer()
             }
             .padding(.horizontal)
