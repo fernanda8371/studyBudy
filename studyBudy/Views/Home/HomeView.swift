@@ -64,10 +64,10 @@ struct HomeView: View {
                 
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 16) {
-                        StudyTechniqueView(imageName: "tomato", title: "Pomodoro", action: "Empezar")
-                        StudyTechniqueView(imageName: "method", title: "Método de Cornell", action: "Empezar")
-                        StudyTechniqueView(imageName: "recall", title: "Active recall", action: "Empezar")
-                        StudyTechniqueView(imageName: "other_technique", title: "Edición", action: "$20")
+                        StudyTechniqueView(imageName: "timer", title: "Pomodoro", action: "Empezar")
+                        StudyTechniqueView(imageName: "book", title: "Método Cornell", action: "Empezar")
+                        StudyTechniqueView(imageName: "brain.head.profile", title: "Active recall", action: "Empezar")
+                        StudyTechniqueView(imageName: "pencil", title: "Edición", action: "Empezar")
                     }
                     .padding(.horizontal)
                 }
@@ -110,11 +110,17 @@ struct StudyTechniqueView: View {
     
     var body: some View {
         VStack {
-            Image(imageName)
-                .resizable()
-                .frame(width: 60, height: 60)
-                .background(Color.gray.opacity(0.2))
-                .clipShape(Circle())
+            ZStack {
+                Circle()
+                    .fill(Color.gray.opacity(0.2))
+                    .frame(width: 60, height: 60) // Círculo más grande
+                
+                Image(systemName: imageName)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 30, height: 30) // Ícono más pequeño
+                    .foregroundColor(.black) // Color del ícono
+            }
             
             Text(title)
                 .font(.subheadline)
