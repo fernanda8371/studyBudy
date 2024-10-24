@@ -4,7 +4,7 @@
 //
 //  Created by Maria Renee Ramos Valdez on 23/10/24.
 //
-
+//.scrollContentBackground(.hidden)
 import SwiftUI
 
 struct FlashCard: View {
@@ -39,20 +39,18 @@ struct FlashCard: View {
                                         Spacer()
                                     }
                                 }
-                                .padding(.vertical, 20)
+                                .padding(.vertical, 10)
                                 
                                 // Scrollable Text overlay
-                                ScrollView {
-                                    Text(text)
-                                        .lineSpacing(10)
-                                        .padding(30)
-                                        .font(.system(size: 30))
-                                        .foregroundColor(.black)
-                                        .multilineTextAlignment(.leading)
-                                        .frame(maxWidth: geometry.size.width * 0.85, alignment: .leading)
-                                }
-                                .frame(width: geometry.size.width * 0.85, height: geometry.size.height * 0.45)
-                                .background(Color.clear)
+                                TextEditor(text: $text)
+                                    .scrollContentBackground(.hidden)
+                                    .lineSpacing(10)
+                                    .padding(30)
+                                    .font(.system(size: 30, weight: .medium, design: .rounded))
+                                    .foregroundColor(.black)
+                                    .multilineTextAlignment(.leading)
+                                    .opacity(0.9)
+                                
                             }
                         )
                         .frame(height: 300)
