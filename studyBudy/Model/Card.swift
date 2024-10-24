@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Card: Identifiable, Codable {
+struct Card: Identifiable, Codable, Hashable {
     var id: String
     var cardOwner: String
     var creationDate: String

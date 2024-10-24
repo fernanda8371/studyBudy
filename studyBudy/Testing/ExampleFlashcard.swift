@@ -5,42 +5,29 @@
 //  Created by José Ruiz on 24/10/24.
 //
 
-//
-//  ExampleFlashcard.swift
-//  studyBudy
-//
-//  Created by José Ruiz on 24/10/24.
-//
-
 import SwiftUI
 
-struct ExampleFlashcard: View {
+struct ExampleFlashCard: View {
     @State var cardVM = CardViewModel()
-    var backgroundColor: Color = Color.white
-    var borderColor: Color? = nil
-    var lineColor: Color = Color.gray.opacity(0.4)
     @State private var currentCardText: String = "Cargando..."
-
+    @Binding var text : String
+    
     var body: some View {
         ZStack {
             GeometryReader { geometry in
                 VStack {
+                    Spacer()
                     RoundedRectangle(cornerRadius: 35)
-                        .fill(backgroundColor)
-                        .frame(width: geometry.size.width * 0.9, height: geometry.size.height * 0.5)
+                        .fill(Color.white)
+                        .frame(width: geometry.size.width * 0.9, height: 500)
                         .shadow(radius: 5)
                         .overlay(
-                            RoundedRectangle(cornerRadius: 35)
-                                .stroke(borderColor ?? backgroundColor, lineWidth: borderColor != nil ? 2 : 0)
-                        )
-                        .overlay(
                             ZStack {
-                                // Crear líneas en el fondo
-                                VStack(spacing: 10) {
-                                    Spacer()
+                                // Create liness
+                                VStack(spacing: 15) {
                                     ForEach(0..<12) { _ in
                                         Rectangle()
-                                            .fill(lineColor)
+                                            .fill(Color.gray.opacity(0.4))
                                             .frame(height: 1)
                                             .padding(.horizontal, 15)
                                         Spacer()
@@ -48,40 +35,25 @@ struct ExampleFlashcard: View {
                                 }
                                 .padding(.vertical, 10)
                                 
-                                // Mostrar el texto cargado en un TextEditor
-                                TextEditor(text: $currentCardText)
+                                // TextEditor for input
+                                TextEditor(text: $text)
                                     .scrollContentBackground(.hidden)
-                                    .lineSpacing(10)
-                                    .padding(30)
-                                    .font(.system(size: 30, weight: .medium, design: .rounded))
+                                    .lineSpacing(15)
+                                    .padding(.horizontal, 30)
+                                    .padding(.top, 10)
+                                    .font(.system(size: 25, weight: .medium, design: .rounded))
                                     .foregroundColor(.black)
                                     .multilineTextAlignment(.leading)
-                                    .opacity(0.9)
-                                    .disabled(true) // Deshabilitar edición
+                                    .frame(width: geometry.size.width * 0.85, height: 500)
                             }
                         )
-                        .padding()
-                    
-                    // Mostrar el texto debajo de la tarjeta
-                    Text(currentCardText)
-                        .font(.system(size: min(18, geometry.size.width * 0.05), weight: .medium))
-                        .multilineTextAlignment(.center)
-                        .foregroundColor(.black)
-                        .padding(20)
-                        .frame(maxWidth: geometry.size.width * 0.85, maxHeight: geometry.size.height * 0.45)
-                    
-                    if cardVM.isLoading {
-                        ProgressView("Cargando tarjetas...")
-                    } else if let errorMessage = cardVM.errorMessage {
-                        Text("Error: \(errorMessage)")
-                            .foregroundColor(.red)
-                    }
+                    Spacer()
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
+            .frame(height: 500)
         }
-        .frame(height: 300)
-        .onAppear {
+        .onAppear(){
             Task {
                 await cardVM.fetchAllCards()
                 if let firstCard = cardVM.cards.first {
@@ -95,5 +67,8 @@ struct ExampleFlashcard: View {
 }
 
 #Preview {
-    ExampleFlashcard()
+    @Previewable @State var sampleText = "Texto de ejemplo para la tarjeta"
+    ExampleFlashCard(text: $sampleText)
 }
+
+
