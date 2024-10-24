@@ -21,7 +21,7 @@ struct FlashCard: View {
                         .shadow(radius: 5)
                         .overlay(
                             ZStack {
-                                // Create lines
+                                // Create liness
                                 VStack(spacing: 15) {
                                     ForEach(0..<12) { _ in
                                         Rectangle()
