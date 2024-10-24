@@ -2,18 +2,22 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>CLIENT_ID</key>
+	<string>247580556015-iak46rdlq7l9s5rqeruaqfkhf1fjpep3.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.247580556015-iak46rdlq7l9s5rqeruaqfkhf1fjpep3</string>
 	<key>API_KEY</key>
-	<string>AIzaSyDgQWROpHYNUi__x_eWSqfp7vvkh8rwlmM</string>
+	<string>AIzaSyDe7e3m4ctdYYJnfMumxzeYnjijSMuo4Pw</string>
 	<key>GCM_SENDER_ID</key>
-	<string>55253928763</string>
+	<string>247580556015</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.fervasquezc.studyBudy</string>
 	<key>PROJECT_ID</key>
-	<string>studymate-c9c2d</string>
+	<string>stdy-mat</string>
 	<key>STORAGE_BUCKET</key>
-	<string>studymate-c9c2d.appspot.com</string>
+	<string>stdy-mat.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -25,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:55253928763:ios:96377b358bb9efa7b8051e</string>
+	<string>1:247580556015:ios:dc614f08b9d10743e7391a</string>
 </dict>
 </plist>
