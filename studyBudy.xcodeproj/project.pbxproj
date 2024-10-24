@@ -31,6 +31,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		7178D5E32CCAABE50018502D /* Testing */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Testing; sourceTree = "<group>"; };
 		719084092CC7FEBE00CD18A8 /* Views */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Views; sourceTree = "<group>"; };
 		7190840A2CC7FECA00CD18A8 /* ViewModel */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ViewModel; sourceTree = "<group>"; };
 		7190840B2CC7FED400CD18A8 /* Model */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Model; sourceTree = "<group>"; };
@@ -73,6 +74,7 @@
 		C726DBC72CC7FBFD00E825D6 /* studyBudy */ = {
 			isa = PBXGroup;
 			children = (
+				7178D5E32CCAABE50018502D /* Testing */,
 				C759A06A2CC966D50078A20C /* Info.plist */,
 				C759A0062CC877520078A20C /* Other */,
 				7190840C2CC7FEDC00CD18A8 /* Network */,
@@ -119,6 +121,7 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
+				7178D5E32CCAABE50018502D /* Testing */,
 				719084092CC7FEBE00CD18A8 /* Views */,
 				7190840A2CC7FECA00CD18A8 /* ViewModel */,
 				7190840B2CC7FED400CD18A8 /* Model */,

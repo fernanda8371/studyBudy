@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Quizes : Identifiable, Codable {
+struct Quiz : Identifiable, Codable {
     var id: String
     var name: String
     var quizOwner: String

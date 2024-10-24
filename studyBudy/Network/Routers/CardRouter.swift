@@ -10,7 +10,7 @@ import Foundation
 class CardRouter {
     struct GetAllCards : APIGetAction {
         typealias ResponseType = [Card]
-        var path = "/cards"
+        var path = "cards"
     }
     
     struct GetCards : APIGetAction {
