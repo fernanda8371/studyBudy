@@ -58,3 +58,4 @@ struct FlashCard: View {
     @Previewable @State var sampleText = "Sample flashcard text"
     FlashCard(text: $sampleText)
 }
+
