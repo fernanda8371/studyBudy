@@ -8,32 +8,24 @@
 import SwiftUI
 
 struct FlashCard: View {
-    @State var cardVM = CardViewModel()
-    var backgroundColor: Color = Color.white
-    var borderColor: Color? = nil
-    var lineColor: Color = Color.gray.opacity(0.4)
     @Binding var text: String
     
     var body: some View {
         ZStack {
             GeometryReader { geometry in
                 VStack {
+                    Spacer()
                     RoundedRectangle(cornerRadius: 35)
-                        .fill(backgroundColor)
-                        .frame(width: geometry.size.width * 0.9, height: geometry.size.height * 0.5)
+                        .fill(Color.white)
+                        .frame(width: geometry.size.width * 0.9, height: 500)
                         .shadow(radius: 5)
                         .overlay(
-                            RoundedRectangle(cornerRadius: 35)
-                                .stroke(borderColor ?? backgroundColor, lineWidth: borderColor != nil ? 2 : 0)
-                        )
-                        .overlay(
                             ZStack {
-                                // Create lines
-                                VStack(spacing: 10) {
-                                    Spacer()
+                                // Create liness
+                                VStack(spacing: 15) {
                                     ForEach(0..<12) { _ in
                                         Rectangle()
-                                            .fill(lineColor)
+                                            .fill(Color.gray.opacity(0.4))
                                             .frame(height: 1)
                                             .padding(.horizontal, 15)
                                         Spacer()
@@ -41,31 +33,24 @@ struct FlashCard: View {
                                 }
                                 .padding(.vertical, 10)
                                 
-                                // Scrollable Text overlay
+                                // TextEditor for input
                                 TextEditor(text: $text)
                                     .scrollContentBackground(.hidden)
-                                    .lineSpacing(10)
-                                    .padding(30)
-                                    .font(.system(size: 30, weight: .medium, design: .rounded))
+                                    .lineSpacing(15)
+                                    .padding(.horizontal, 30)
+                                    .padding(.top, 10)
+                                    .font(.system(size: 25, weight: .medium, design: .rounded))
                                     .foregroundColor(.black)
                                     .multilineTextAlignment(.leading)
-                                    .opacity(0.9)
+                                    .frame(width: geometry.size.width * 0.85, height: 500)
                             }
                         )
-                        .padding()
-                    
-                    // Display the text below the card
-                    Text(text)
-                        .font(.system(size: min(18, geometry.size.width * 0.05), weight: .medium))
-                        .multilineTextAlignment(.center)
-                        .foregroundColor(.black)
-                        .padding(20)
-                        .frame(maxWidth: geometry.size.width * 0.85, maxHeight: geometry.size.height * 0.45)
+                    Spacer()
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
+            .frame(height: 500)
         }
-        .frame(height: 300)
     }
 }
 
@@ -73,3 +58,4 @@ struct FlashCard: View {
     @Previewable @State var sampleText = "Sample flashcard text"
     FlashCard(text: $sampleText)
 }
+
