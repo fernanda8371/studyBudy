@@ -8,6 +8,5 @@
 import Foundation
 
 class API {
-    static var baseURL = "https://"
-    
+    static var baseURL = "https://api-sb-rust.vercel.app/"
 }
