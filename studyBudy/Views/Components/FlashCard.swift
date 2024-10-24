@@ -4,7 +4,7 @@
 //
 //  Created by Maria Renee Ramos Valdez on 23/10/24.
 //
-//.scrollContentBackground(.hidden)
+
 import SwiftUI
 
 struct FlashCard: View {
@@ -27,7 +27,6 @@ struct FlashCard: View {
                                 .stroke(borderColor ?? backgroundColor, lineWidth: borderColor != nil ? 2 : 0)
                         )
                         .overlay(
-
                             ZStack {
                                 // Create lines
                                 VStack(spacing: 10) {
@@ -51,31 +50,22 @@ struct FlashCard: View {
                                     .foregroundColor(.black)
                                     .multilineTextAlignment(.leading)
                                     .opacity(0.9)
-                                
                             }
-<<<<<<< HEAD
                         )
-                        .frame(height: 300)
                         .padding()
+                    
+                    // Display the text below the card
+                    Text(text)
+                        .font(.system(size: min(18, geometry.size.width * 0.05), weight: .medium))
+                        .multilineTextAlignment(.center)
+                        .foregroundColor(.black)
+                        .padding(20)
+                        .frame(maxWidth: geometry.size.width * 0.85, maxHeight: geometry.size.height * 0.45)
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
         }
-=======
-                        }
-                    )
-                
-               
-                Text(text)
-                    .font(.system(size: min(18, geometry.size.width * 0.05), weight: .medium))
-                    .multilineTextAlignment(.center)
-                    .foregroundColor(.black)
-                    .padding(20)
-                    .frame(maxWidth: geometry.size.width * 0.85, maxHeight: geometry.size.height * 0.45)
-            }
-        }
-        .frame(height: 250)
->>>>>>> personal/josealbertoruizr
+        .frame(height: 300)
     }
 }
 
