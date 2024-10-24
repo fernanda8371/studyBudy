@@ -17,23 +17,23 @@ struct FlashCards: View {
                            startPoint: .topLeading, endPoint: .bottomTrailing)
                 .ignoresSafeArea()
             
-            VStack() { 
-
+            VStack(spacing: 10) {
                 Text("Crea tus Flash Cards para autoestudio!")
                     .font(.system(size: 30, weight: .bold, design: .rounded))
                     .foregroundColor(.white)
                     .multilineTextAlignment(.center)
-                    .padding(.bottom, 5)
+                    .padding(.horizontal, 16)
+                    .padding(.top, 10)
                 
                 // Carousel of flashcards
                 TabView {
                     ForEach(0..<cardTexts.count, id: \.self) { index in
                         FlashCard(text: $cardTexts[index])
-                            .padding(.horizontal, 20)
                     }
                 }
                 .tabViewStyle(PageTabViewStyle())
                 .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
+                .frame(height:700)
                 .padding(.bottom, 20)
             }
             .padding(.horizontal)
