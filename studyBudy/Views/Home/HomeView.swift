@@ -1,42 +1,48 @@
 import SwiftUI
 
 struct HomeView: View {
+    init() {
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
+     
+        UINavigationBar.appearance().standardAppearance = appearance
+        UINavigationBar.appearance().scrollEdgeAppearance = appearance
+    }
+
     var body: some View {
+        
         GeometryReader { geometry in
+            
             VStack(alignment: .leading) {
                 // Header con saludo
                 HStack {
                     Image(systemName: "person.circle.fill")
                         .resizable()
-                        .frame(width: 40, height: 40)
+                        .frame(width: 55, height: 55)
                         .foregroundColor(.yellow)
                     
                     VStack(alignment: .leading) {
                         Text("Hola Lorenzo")
-                            .font(.headline)
+                            .font(.title)
+                        .bold()
                         Text("¿Cómo quieres empezar a estudiar?")
                             .font(.subheadline)
                             .foregroundColor(.gray)
                     }
                     
+  
+                    
                     Spacer()
                     
-                    Image(systemName: "bell.fill")
-                        .foregroundColor(.black)
-                        .overlay(
-                            Circle()
-                                .fill(Color.red)
-                                .frame(width: 8, height: 8)
-                                .offset(x: 8, y: -8),
-                            alignment: .topTrailing
-                        )
+                    
                 }
                 .padding(.horizontal)
                 
                 // Sesión de estudio
                 RoundedRectangle(cornerRadius: 15)
                     .fill(Color(red: 0.67, green: 0.84, blue: 0.99))
-                    .frame(width: geometry.size.width * 0.9, height: geometry.size.height * 0.25) // Adaptable a pantalla
+                    .frame(width: geometry.size.width * (UIDevice.current.userInterfaceIdiom == .pad ? 0.95 : 0.9), height: geometry.size.height * 0.25) // Adaptable a iPhone y iPad
                     .overlay(
                         HStack {
                             VStack(alignment: .leading) {
@@ -63,14 +69,21 @@ struct HomeView: View {
                     .padding(.horizontal)
                 
                 ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: 16) {
-                        StudyTechniqueView(imageName: "timer", title: "Pomodoro", action: "Empezar")
-                        StudyTechniqueView(imageName: "book", title: "Método Cornell", action: "Empezar")
-                        StudyTechniqueView(imageName: "brain.head.profile", title: "Active recall", action: "Empezar")
-                        StudyTechniqueView(imageName: "pencil", title: "Edición", action: "Empezar")
-                    }
-                    .padding(.horizontal)
-                }
+                                    HStack(spacing: 16) {
+                                        NavigationLink(destination: PomodoroView()) {
+                                            StudyTechniqueView(imageName: "timer", title: "Pomodoro", action: "Empezar")
+                                        }
+
+                                        StudyTechniqueView(imageName: "book", title: "Método Cornell", action: "Empezar")
+
+                                        NavigationLink(destination: FlashCards()) {
+                                            StudyTechniqueView(imageName: "brain.head.profile", title: "Active recall", action: "Empezar")
+                                        }
+
+                                        StudyTechniqueView(imageName: "pencil", title: "Edición", action: "Empezar")
+                                    }
+                                    .padding(.horizontal)
+                                }
                 
                 // Progreso de perfil
                 RoundedRectangle(cornerRadius: 15)
@@ -166,6 +179,9 @@ struct TabBarButton: View {
         .frame(maxWidth: .infinity)
     }
 }
+
+// Extensión para utilizar colores hexadecimales en SwiftUI
+
 
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
