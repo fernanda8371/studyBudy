@@ -5,13 +5,6 @@
 //  Created by José Ruiz on 24/10/24.
 //
 
-//
-//  ExampleFlashcard.swift
-//  studyBudy
-//
-//  Created by José Ruiz on 24/10/24.
-//
-
 import SwiftUI
 
 struct ExampleFlashcard: View {
