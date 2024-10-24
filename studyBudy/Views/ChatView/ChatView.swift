@@ -45,11 +45,15 @@ struct ChatView: View {
     @ObservedObject var chatModel = ChatModel()
     @State private var isProEnabled: Bool = false // Toggle state
     @State private var showProInfo: Bool = false // Estado para mostrar el cuadro de información
+	
+	// Propiedades para manejar la selección de imagen
+	@State private var showImagePicker: Bool = false
+	@State private var selectedImage: UIImage? = nil
     
     init(selectedTab: Binding<Int>, isTabViewNavigation: Bool) {
         self._selectedTab = selectedTab
         self.isTabViewNavigation = isTabViewNavigation
-        let welcomeMessage = "Hola, soy Bufy. ¿En qué puedo ayudarte hoy?"
+        let welcomeMessage = "Hola, soy Buddy. ¿En qué puedo ayudarte hoy?"
         chatModel.messages.append(ChatMessage(text: welcomeMessage, isUser: false))
         
         // Personalización de la barra de navegación
@@ -108,15 +112,15 @@ struct ChatView: View {
                                     Spacer()
                                     Text(message.text)
                                         .padding()
-                                        .background(Color.gray.opacity(0.3))
-                                        .foregroundColor(.white)
+                                        .background(Color.gray.opacity(0.2))
+										.foregroundColor(.black)
                                         .cornerRadius(10)
                                         .shadow(radius: 1)
                                 } else {
                                     HStack(alignment: .top) {
-                                        Image("chatbot")
+                                        Image("lorenzoIcon")
                                             .resizable()
-                                            .frame(width: 30, height: 30)
+                                            .frame(width: 40, height: 40)
                                             .foregroundColor(.black)
                                             .padding(.vertical)
                                         Text(message.text)
@@ -156,6 +160,14 @@ struct ChatView: View {
                 // Input box and Pro toggle
                 VStack(spacing: 5) {
                     HStack {
+						Button(action: {
+							showImagePicker.toggle() // Abre el selector de imagen
+							}) {
+							Image(systemName: "photo")
+							.font(.system(size: 20))
+							.foregroundColor(.black)
+							.padding(.leading)
+						}
                         // TextField
                         TextField("", text: $chatModel.inputText)
                             .placeholder(when: chatModel.inputText.isEmpty) {
@@ -222,20 +234,26 @@ struct ChatView: View {
             .toolbarBackground(.clear, for: .tabBar)
             .toolbar(.hidden, for: .tabBar)
             
-            // Floating info bubble (superposed and static in position)
+			// Presentar ImagePicker como una hoja
+						.sheet(isPresented: $showImagePicker) {
+							ImagePicker(image: $selectedImage, isShown: $showImagePicker) { image in
+								chatModel.uploadImage(image: image) // Llama al método para enviar la imagen
+							}
+						}
+			
             if showProInfo {
                 VStack {
                     Spacer()
                     HStack {
                         Spacer()
                         BubbleView {
-                            Text("**Bufy-Pro** es un modelo entrenado para dar respuestas del Código Civil de Nuevo León actualizado al 2024, como artículos y más. \n**Actívalo** si deseas consultas más específicas. *Redacta las preguntas de forma muy detallada.")
+                            Text("**Buddy es un modelo entrenado para ayudarte a estudiar y generar quizes con tu informacion.")
                                 .font(.caption)
                                 .foregroundColor(.white)
                                 .padding(8)
                         }
-                        .frame(width: 300)
-                        .offset(x: 0, y: -43) // Ajustado para estar justo arriba del ícono
+                        .frame(width: 250)
+                        .offset(x: -45, y: -100) // Ajustado para estar justo arriba del ícono
                         Spacer().frame(width: 30)
                     }
                 }
@@ -253,6 +271,45 @@ struct ChatView: View {
             }
         }
     }
+}
+
+struct ImagePicker: UIViewControllerRepresentable {
+	@Binding var image: UIImage?
+	@Binding var isShown: Bool
+	var onImagePicked: (UIImage) -> Void
+
+	func makeCoordinator() -> Coordinator {
+		return Coordinator(self)
+	}
+
+	func makeUIViewController(context: Context) -> UIImagePickerController {
+		let picker = UIImagePickerController()
+		picker.delegate = context.coordinator
+		return picker
+	}
+
+	func updateUIViewController(_ uiViewController: UIImagePickerController, context: Context) {
+		// No se necesita implementar
+	}
+
+	class Coordinator: NSObject, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+		var parent: ImagePicker
+		
+		init(_ parent: ImagePicker) {
+			self.parent = parent
+		}
+		
+		func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+			if let uiImage = info[.originalImage] as? UIImage {
+				parent.onImagePicked(uiImage)
+			}
+			parent.isShown = false
+		}
+		
+		func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+			parent.isShown = false
+		}
+	}
 }
 
 // Vista para la "burbuja" de información
