@@ -25,7 +25,7 @@ class ChatModel: ObservableObject {
 		}
 
 		// *Harcodear el user_id aquí*
-		let hardcodedUserId = "671840962a2c8c5b4ee95a57"  // Reemplaza con tu user_id
+        let hardcodedUserId = mongoUserID  // Reemplaza con tu user_id
 
 		let boundary = UUID().uuidString
 		let urlString = "https://api-sb-rust.vercel.app/chatbot/upload"
