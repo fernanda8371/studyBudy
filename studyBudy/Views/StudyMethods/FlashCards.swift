@@ -21,11 +21,12 @@ struct FlashCards: View {
             
             VStack(spacing: 10) {
                 Text("Crea tus Flash Cards para autoestudio!")
-                    .font(.system(size: 30, weight: .bold, design: .rounded))
+                    .font(.system(size: UIScreen.main.bounds.width < 600 ? 30 : 40, weight: .bold, design: .rounded))
                     .foregroundColor(.white)
                     .multilineTextAlignment(.center)
                     .padding(.horizontal, 16)
                     .padding(.top, 10)
+                    .padding(.bottom, 40)
                 
                 // Carousel de flashcards
                 if !cardTexts.isEmpty {
@@ -33,12 +34,18 @@ struct FlashCards: View {
                         TabView {
                             ForEach(Array(zip(vm.cards.indices, vm.cards)), id: \.1.id) { index, card in
                                 FlashCard(text: $cardTexts[index])
+                                    .frame(width: UIScreen.main.bounds.width * 0.85, height: 500)
+                                    .cornerRadius(20)
+                                    .padding(.horizontal, 10)
+    
                             }
+                            .padding(.bottom, 50)
                         }
+                        
                         .tabViewStyle(PageTabViewStyle())
                         .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
-                        .frame(height: 700)
-                        .padding(.bottom, 20)
+                        .frame(height: 550) // Ajusta el tamaño según el dispositivo
+                        
 
                         // Botón para añadir una nueva tarjeta
                         Button(action: {
@@ -53,8 +60,10 @@ struct FlashCards: View {
                                 .foregroundColor(.white)
                                 .shadow(radius: 5)
                         }
-                        .padding(.trailing, 46)
-        
+                        .offset(y: -65) // Ajusta la posición del botón
+                        .padding(.trailing, UIScreen.main.bounds.width < 600 ? 20 : 70)
+                        .padding(.top, 20)
+                        .padding(.bottom, 20)
                     }
                 }
 
