@@ -38,9 +38,6 @@ struct ExamSection: Hashable {
     }
 }
 
-import SwiftUI
-import Charts
-
 struct ExamProgressPieChartView: View {
     
     let progressDistribution: [String: Double] = [
@@ -50,54 +47,67 @@ struct ExamProgressPieChartView: View {
     ]
     
     var body: some View {
-        VStack {
-            // Title for the chart
-            Text("Progreso de aprendizaje")
-                .font(.title3)
-                .foregroundColor(.black) // Color blanco para el texto
-                .padding(.bottom, 10)
-            HStack(spacing: 20) {
-                VStack(alignment: .leading, spacing: 15) {
+        VStack(alignment: .center, spacing: 20) {
+            // Título para la gráfica
+            Text("Progreso de Aprendizaje")
+                .font(.title2)
+                .bold()
+                .foregroundColor(.primary)
+                .padding(.top, 10)
+            
+            HStack(alignment: .top, spacing: 30) {
+                // Sección de la leyenda con el detalle del progreso
+                VStack(alignment: .leading, spacing: 12) {
                     ForEach(progressDistribution.sorted(by: { $0.key < $1.key }), id: \.key) { section, progress in
-                        Text("\(section): \(Int(progress))%")
-                            .font(.subheadline)
-                            .bold()
-                            .foregroundColor(.black)
+                        HStack {
+                            Circle()
+                                .fill(color(for: section))
+                                .frame(width: 12, height: 12)
+                            
+                            Text("\(section): \(Int(progress))%")
+                                .font(.subheadline)
+                                .foregroundColor(.primary)
+                                .bold()
+                        }
                     }
                 }
                 
+                // Gráfica tipo donut con un radio interno para el efecto de anillo
                 if #available(iOS 16.0, *) {
                     Chart(progressDistribution.sorted(by: { $0.key < $1.key }), id: \.key) { section, progress in
                         SectorMark(
                             angle: .value("Progreso", progress),
-                            innerRadius: .ratio(0.5),
+                            innerRadius: .ratio(0.5), // Donut effect
                             angularInset: 1.5
                         )
                         .foregroundStyle(color(for: section))
                     }
                     .aspectRatio(1, contentMode: .fit)
+                    .frame(maxWidth: 200)
                 }
             }
+            .padding(.horizontal, 20)
         }
         .padding()
+        
+        .padding(.horizontal)
     }
-}
     // Helper function for lighter colors
     func color(for subject: String) -> Color {
         switch subject {
         case "Math":
-               return Color(hex: "FFC107") // Strong yellow for Math
-           case "English":
-               return Color(hex: "2196F3") // Strong blue for English
-           case "Science":
+            return Color(hex: "FFC107") // Strong yellow for Math
+        case "English":
+            return Color(hex: "2196F3") // Strong blue for English
+        case "Science":
             return Color(hex: "4CAF50")
-                    
+            
         default:
             return Color.gray
         }
+    }
 }
 
-// Helper extension to use hex color codes in SwiftUI
 
 
 #Preview {
