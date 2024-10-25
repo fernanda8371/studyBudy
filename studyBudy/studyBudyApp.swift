@@ -19,7 +19,7 @@ struct studyBudyApp: App {
     var body: some Scene {
         WindowGroup {
             if logStatus {
-                HomeView()
+                MainTabView()
                     .environment(loginModel)
             } else {
                 WelcomeView()

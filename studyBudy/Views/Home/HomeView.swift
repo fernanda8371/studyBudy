@@ -77,7 +77,9 @@ struct HomeView: View {
                             StudyTechniqueView(imageName: "timer", title: "Pomodoro", action: "Empezar")
                         }
 
-                        StudyTechniqueView(imageName: "book", title: "Método Cornell", action: "Empezar")
+                        NavigationLink(destination: QuizView()) {
+                            StudyTechniqueView(imageName: "book", title: "Cornell", action: "Empezar")
+                        }
 
                         NavigationLink(destination: FlashCards()) {
                             StudyTechniqueView(imageName: "brain.head.profile", title: "Active recall", action: "Empezar")
@@ -125,15 +127,7 @@ struct HomeView: View {
 
                 
                 // Barra de navegación (simulada para esta vista)
-                HStack {
-                    TabBarButton(imageName: "house.fill", title: "Inicio")
-                    TabBarButton(imageName: "chart.bar.fill", title: "Progreso")
-                    TabBarButton(imageName: "person.2.fill", title: "Budy AI")
-                    TabBarButton(imageName: "book.fill", title: "Aprendizaje", notificationCount: 2)
-                    TabBarButton(imageName: "person.fill", title: "Perfil")
-                }
-                .padding(.horizontal)
-                .padding(.bottom, 10)
+               
             }
         }
     }
@@ -183,39 +177,6 @@ struct StudyTechniqueView: View {
     }
 }
 
-// Vista para los botones de la barra de navegación
-struct TabBarButton: View {
-    let imageName: String
-    let title: String
-    var notificationCount: Int? = nil
-    
-    var body: some View {
-        VStack {
-            ZStack {
-                Image(systemName: imageName)
-                    .font(.system(size: 20))
-                    .foregroundColor(.black)
-                
-                if let count = notificationCount {
-                    Circle()
-                        .fill(Color.red)
-                        .frame(width: 16, height: 16)
-                        .overlay(
-                            Text("\(count)")
-                                .foregroundColor(.white)
-                                .font(.footnote)
-                        )
-                        .offset(x: 10, y: -10)
-                }
-            }
-            
-            Text(title)
-                .font(.caption)
-                .foregroundColor(.black)
-        }
-        .frame(maxWidth: .infinity)
-    }
-}
 
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {

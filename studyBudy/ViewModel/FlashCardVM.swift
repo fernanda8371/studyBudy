@@ -24,6 +24,14 @@ class CardViewModel {
             text: newText
         )
         cards.append(newCard)
+        saveCardToStorage(card: newCard)
+    }
+    
+    private func saveCardToStorage(card: Card) {
+        // Aquí puedes implementar la lógica para guardar la tarjeta
+        // en un almacenamiento persistente (CoreData, UserDefaults, Firebase, etc.)
+        // Por ejemplo:
+        print("Tarjeta guardada: \(card.text)")
     }
 
 
