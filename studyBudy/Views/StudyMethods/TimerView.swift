@@ -61,34 +61,35 @@ struct TimerView: View {
             
             Image("tomato")
                 .resizable()
-                .frame(width: 100, height: 100)
+                .frame(width: UIScreen.main.bounds.width < 600 ? 100 : 150, height: UIScreen.main.bounds.width < 600 ? 100 : 150)
                 .padding(.top)
             
             Text("Metodo Pomodoro")
-                .font(.system(size: 60, weight: .bold))
-                .fontWeight(.bold)
+                .font(.system(size: UIScreen.main.bounds.width < 600 ? 40 : 60, weight: .bold))
                 .foregroundColor(Color(hex: "#F45151"))
-                .padding(.bottom, 50)
+                .lineLimit(1)
+                .minimumScaleFactor(0.5)
+                .padding(20)
             
             Text(stateText)
-                .font(.title2)
+                .font(.system(size: UIScreen.main.bounds.width < 600 ? 20 : 30))
                 .bold()
                 .padding(.bottom, 20)
             
             ZStack {
                 Circle()
-                    .stroke(Color(hex: "#F45151"), lineWidth: 15)
-                    .frame(width: 200, height: 200)
-
+                    .stroke(Color(hex: "#F45151").opacity(0.3), lineWidth: 15)
+                    .frame(width: UIScreen.main.bounds.width < 600 ? 200 : 300, height: UIScreen.main.bounds.width < 600 ? 200 : 300)
+                
                 Circle()
                     .trim(from: 0.0, to: CGFloat(timeRemaining) / CGFloat(getCurrentStateTime()))
-                    .stroke(Color.red, lineWidth: 10)
+                    .stroke(Color.red, lineWidth: 15)
                     .rotationEffect(.degrees(-90))
-                    .frame(width: 200, height: 200)
+                    .frame(width: UIScreen.main.bounds.width < 600 ? 200 : 300, height: UIScreen.main.bounds.width < 600 ? 200 : 300)
                     .animation(.easeInOut(duration: 1), value: timeRemaining)
-
+                
                 Text("\(formatTime(timeRemaining))")
-                    .font(.system(size: 40, weight: .bold))
+                    .font(.system(size: UIScreen.main.bounds.width < 600 ? 40 : 50, weight: .bold))
                     .foregroundColor(.black)
             }
             .padding(.bottom, 50)
@@ -104,7 +105,7 @@ struct TimerView: View {
                 Text(isPaused ? "Reanudar" : "Pausar")
                     .font(.title)
                     .bold()
-                    .frame(width: 300, height: 60)
+                    .frame(width: UIScreen.main.bounds.width < 600 ? 250 : 300, height: 60)
                     .background(Color(hex: "#F45151"))
                     .foregroundColor(.white)
                     .cornerRadius(10)
