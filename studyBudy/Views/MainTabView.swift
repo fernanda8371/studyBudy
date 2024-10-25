@@ -32,7 +32,7 @@ struct MainTabView: View {
                     .tag(0)
                 ExamProgressPieChartView()
                     .tabItem {
-                        Label("Aprendizaje", systemImage: "book.fill")
+                        Label("Progreso", systemImage: "book.fill")
                     }
                     .tag(1)
                 
