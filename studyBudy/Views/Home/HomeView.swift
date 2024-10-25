@@ -11,7 +11,8 @@ struct HomeView: View {
     //@StateObject private var examViewModel = ExamProgressViewModel()
     
     @State private var selectedChart: ChartType?
-    
+    @State private var showAlert = false
+
     enum ChartType: Identifiable {
         case progressView
         
@@ -31,141 +32,139 @@ struct HomeView: View {
 
     var body: some View {
         GeometryReader { geometry in
-            ScrollView{
-                VStack(alignment: .leading) {
-                    // Header con saludo y datos de usuario desde AppStorage
-                    HStack {
-                        Image(systemName: "person.circle.fill")
-                            .resizable()
-                            .frame(width: 55, height: 55)
-                            .foregroundColor(.yellow)
-                        
-                        VStack(alignment: .leading) {
-                            // Mostrar el nombre del usuario autenticado
-                            Text("Hola \(mongoUserName)") // Usando el valor de AppStorage
-                                .font(.title3)
-                                .bold()
-                            
-                            Text("¿Cómo quieres empezar a estudiar?")
-                                .font(.subheadline)
-                                .foregroundColor(.gray)
-                        }
-                        
-                        Spacer()
-                        
-                    }
-                    .padding(.top)
-                    
-                    .padding(.horizontal)
-                    
-                    // Sesión de estudio
-                    RoundedRectangle(cornerRadius: 15)
-                        .fill(Color(red: 0.67, green: 0.84, blue: 0.99))
-                        .frame(width: geometry.size.width * (UIDevice.current.userInterfaceIdiom == .pad ? 0.95 : 0.9), height: geometry.size.height * 0.25) // Adaptable a iPhone y iPad
-                        .overlay(
-                            HStack {
-                                VStack(alignment: .leading) {
-                                    Text("Sesión de estudio")
-                                        .font(.title3)
-                                        .foregroundColor(.black)
-                                    Text("¿Cómo vas a estudiar hoy?")
-                                        .font(.subheadline)
-                                        .foregroundColor(.black)
-                                }
-                                Spacer()
-                                Image("homeBudy") // Imagen HomeBudy añadida
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width: geometry.size.width * 0.35, height: geometry.size.height * 0.25) // Tamaño adaptado
-                            }
-                                .padding(.horizontal)
-                        )
-                        .padding(.top)
-                    
-                        .padding(.horizontal)
-                    
-                    // Sección de técnicas de estudio
-                    Text("Técnicas de estudio")
-                        .font(.title3)
-                        .padding(.horizontal)
-                    
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        HStack(spacing: 16) {
-                            NavigationLink(destination: PomodoroView()) {
-                                StudyTechniqueView(imageName: "timer", title: "Pomodoro", action: "Empezar")
-                            }
-                            
-                            NavigationLink(destination: QuizView()) {
-                                StudyTechniqueView(imageName: "book", title: "Quiz", action: "Empezar")
-                            }
-                            
-                            NavigationLink(destination: FlashCards()) {
-                                StudyTechniqueView(imageName: "brain.head.profile", title: "Active recall", action: "Empezar")
-                            }
-                            
-                        }
-                        .padding(.top)
-                        
-                        .padding(.horizontal)
-                    }
-                    
-                    ExamProgressPieChartView()
-                        .frame(width: geometry.size.width * (UIDevice.current.userInterfaceIdiom == .pad ? 0.95 : 0.9), height: 200)
-                    
-                        .background(
-                            RoundedRectangle(cornerRadius: 20)
-                                .fill(
-                                    LinearGradient(
-                                        gradient: Gradient(colors: [Color.blue.opacity(0.1), Color.blue.opacity(0.2)]),
-                                        startPoint: .topLeading,
-                                        endPoint: .bottomTrailing
-                                    )
-                                )
-                                .shadow(color: Color.black.opacity(0.1), radius: 10, x: 0, y: 5)
-                        )
-                        .overlay(
-                            // Add a subtle border for a refined look
-                            RoundedRectangle(cornerRadius: 20)
-                                .stroke(Color.white.opacity(0.3), lineWidth: 1)
-                        )
-                        .foregroundColor(.black) // Set text color to black for better readability
-                        .padding(.top)
-                        .padding(.horizontal, 16)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                    
-                    
-                    Spacer()
-                    Spacer()
-                    Spacer()
-                    
-
-                    // Botón para cerrar sesión
-                    Button(action: {
-                        signOut() // Cerrar sesión
-                    }) {
+            ZStack {
+                ScrollView {
+                    VStack(alignment: .leading) {
+                        // Header con saludo y datos de usuario desde AppStorage
                         HStack {
+                            Image(systemName: "person.circle.fill")
+                                .resizable()
+                                .frame(width: 55, height: 55)
+                                .foregroundColor(.yellow)
+                            
+                            VStack(alignment: .leading) {
+                                // Mostrar el nombre del usuario autenticado
+                                Text("Hola \(mongoUserName)") // Usando el valor de AppStorage
+                                    .font(.title3)
+                                    .bold()
+                                
+                                Text("¿Cómo quieres empezar a estudiar?")
+                                    .font(.subheadline)
+                                    .foregroundColor(.gray)
+                            }
+                            
                             Spacer()
-                            Text("Cerrar sesión")
-                                .foregroundColor(.red)
-                                .bold()
-                            Spacer()
+
+                            Button(action: {
+                                showAlert = true
+                            }) {
+                                ZStack {
+                                    Circle()
+                                        .fill(Color.blue)
+                                        .frame(width: 55, height: 55)
+                                        
+                                    
+                                    Image(systemName: "rectangle.portrait.and.arrow.right")
+                                        .resizable()
+                                        .frame(width: 24, height: 24)
+                                        .foregroundColor(.white)
+                                }
+                            }
+                            .padding()
+                            
                         }
-                        .padding()
-                        .background(Color.white)
-                        .cornerRadius(15)
-                        .shadow(radius: 5)
+                        .padding(.top)
                         .padding(.horizontal)
+                        .alert(isPresented: $showAlert) {
+                            Alert(
+                                title: Text("Log Out"),
+                                message: Text("Are you sure you want to log out?"),
+                                primaryButton: .destructive(Text("Log Out")) {
+                                    signOut() // Lógica de cierre de sesión
+                                },
+                                secondaryButton: .cancel()
+                            )
+                        }
+                        // Sesión de estudio
+                        RoundedRectangle(cornerRadius: 15)
+                            .fill(Color(red: 0.67, green: 0.84, blue: 0.99))
+                            .frame(width: geometry.size.width * (UIDevice.current.userInterfaceIdiom == .pad ? 0.95 : 0.9), height: geometry.size.height * 0.25) // Adaptable a iPhone y iPad
+                            .overlay(
+                                HStack {
+                                    VStack(alignment: .leading) {
+                                        Text("Sesión de estudio")
+                                            .font(.title3)
+                                            .foregroundColor(.black)
+                                        Text("¿Cómo vas a estudiar hoy?")
+                                            .font(.subheadline)
+                                            .foregroundColor(.black)
+                                    }
+                                    Spacer()
+                                    Image("homeBudy") // Imagen HomeBudy añadida
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: geometry.size.width * 0.35, height: geometry.size.height * 0.25) // Tamaño adaptado
+                                }
+                                    .padding(.horizontal)
+                            )
+                            .padding(.top)
+                            .padding(.horizontal)
+                        
+                        // Sección de técnicas de estudio
+                        Text("Técnicas de estudio")
+                            .font(.title3)
+                            .padding(.horizontal)
+                        
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            HStack(spacing: 16) {
+                                NavigationLink(destination: PomodoroView()) {
+                                    StudyTechniqueView(imageName: "timer", title: "Pomodoro", action: "Empezar")
+                                }
+                                
+                                NavigationLink(destination: QuizView()) {
+                                    StudyTechniqueView(imageName: "book", title: "Quiz", action: "Empezar")
+                                }
+                                
+                                NavigationLink(destination: FlashCards()) {
+                                    StudyTechniqueView(imageName: "brain.head.profile", title: "Active recall", action: "Empezar")
+                                }
+                            }
+                            .padding(.top)
+                            .padding(.horizontal)
+                        }
+                        
+                        ExamProgressPieChartView()
+                            .frame(width: geometry.size.width * (UIDevice.current.userInterfaceIdiom == .pad ? 0.95 : 0.9), height: 200)
+                        
+                            .background(
+                                RoundedRectangle(cornerRadius: 20)
+                                    .fill(
+                                        LinearGradient(
+                                            gradient: Gradient(colors: [Color.blue.opacity(0.1), Color.blue.opacity(0.2)]),
+                                            startPoint: .topLeading,
+                                            endPoint: .bottomTrailing
+                                        )
+                                    )
+                                    .shadow(color: Color.black.opacity(0.1), radius: 10, x: 0, y: 5)
+                            )
+                            .overlay(
+                                // Add a subtle border for a refined look
+                                RoundedRectangle(cornerRadius: 20)
+                                    .stroke(Color.white.opacity(0.3), lineWidth: 1)
+                            )
+                            .foregroundColor(.black) // Set text color to black for better readability
+                            .padding(.top)
+                            .padding(.horizontal, 16)
+                            .frame(maxWidth: .infinity, alignment: .leading)
                     }
-                    
-                    .padding(.top, 8)
-                    
-                    
-                    // Barra de navegación (simulada para esta vista)
-                    
                 }
+                
+                // Botón para cerrar sesión en la esquina inferior derecha
+
             }
         }
     }
+
     func signOut() {
         logStatus = false
         mongoUserName = ""
@@ -179,7 +178,6 @@ struct HomeView: View {
             print("Error al cerrar sesión: \(error.localizedDescription)")
         }
     }
-        
 }
 
 // Vista para las técnicas de estudio
@@ -213,7 +211,6 @@ struct StudyTechniqueView: View {
     }
 }
 
-
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
@@ -224,3 +221,4 @@ struct HomeView_Previews: PreviewProvider {
         }
     }
 }
+
