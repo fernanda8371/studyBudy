@@ -1,12 +1,25 @@
 import SwiftUI
 import FirebaseAuth
 import GoogleSignIn
+import Charts
 
 struct HomeView: View {
     @AppStorage("mongo_user_name") var mongoUserName: String = "" // Nombre del usuario guardado
     @AppStorage("mongo_user_email") var mongoUserEmail: String = "" // Email del usuario
     @AppStorage("log_status") var logStatus: Bool = false // Estado de inicio de sesión
 
+    //@StateObject private var examViewModel = ExamProgressViewModel()
+    
+    @State private var selectedChart: ChartType?
+    
+    enum ChartType: Identifiable {
+        case progressView
+        
+        var id: Int {
+            hashValue
+        }
+    }
+        
     init() {
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
@@ -90,18 +103,22 @@ struct HomeView: View {
                     .padding(.horizontal)
                 }
                 
+                ExamProgressPieChartView()
+                                   .frame(height: 300)
+                                   .padding()
+                
                 // Progreso de perfil
-                RoundedRectangle(cornerRadius: 15)
-                    .fill(Color.green)
-                    .frame(height: geometry.size.height * 0.15) // Tamaño adaptado
-                    .overlay(
-                        Text("Progreso de perfil")
-                            .font(.headline)
-                            .foregroundColor(.black)
-                            .padding(.leading, 16),
-                        alignment: .leading
-                    )
-                    .padding(.horizontal)
+//                RoundedRectangle(cornerRadius: 15)
+//                    .fill(Color.green)
+//                    .frame(height: geometry.size.height * 0.15) // Tamaño adaptado
+//                    .overlay(
+//                        Text("Progreso de perfil")
+//                            .font(.headline)
+//                            .foregroundColor(.black)
+//                            .padding(.leading, 16),
+//                        alignment: .leading
+//                    )
+//                    .padding(.horizontal)
                 
                 Spacer()
                 
