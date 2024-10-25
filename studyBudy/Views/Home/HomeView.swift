@@ -95,14 +95,13 @@ struct HomeView: View {
                         }
 
                         NavigationLink(destination: QuizView()) {
-                            StudyTechniqueView(imageName: "book", title: "Cornell", action: "Empezar")
+                            StudyTechniqueView(imageName: "book", title: "Quiz", action: "Empezar")
                         }
 
                         NavigationLink(destination: FlashCards()) {
                             StudyTechniqueView(imageName: "brain.head.profile", title: "Active recall", action: "Empezar")
                         }
 
-                        StudyTechniqueView(imageName: "pencil", title: "Edición", action: "Empezar")
                     }
                     .padding(.top)
 
@@ -110,32 +109,29 @@ struct HomeView: View {
                 }
                 
                 ExamProgressPieChartView()
-                                    .frame(height: 200)
-                                    .frame(width: 800, alignment: .leading) // Alineación a la izquierda
-                                    .background(
-                                        RoundedRectangle(cornerRadius: 20)
-                                            .fill(Color.gray.opacity(0.2)) // Color personalizado
-                                            .shadow(color: Color.black.opacity(0.1), radius: 10, x: 0, y: 5)
-                                    )
-                                    .foregroundColor(.black) // Cambié el color del texto a negro para mayor legibilidad
-                                    .padding(.top)
-
-                                    .padding()
-                                    .frame(maxWidth: .infinity, alignment: .leading) // Asegura que el contenido esté alineado a la izquierda
-           
-                
-                // Progreso de perfil
-//                RoundedRectangle(cornerRadius: 15)
-//                    .fill(Color.green)
-//                    .frame(height: geometry.size.height * 0.15) // Tamaño adaptado
-//                    .overlay(
-//                        Text("Progreso de perfil")
-//                            .font(.headline)
-//                            .foregroundColor(.black)
-//                            .padding(.leading, 16),
-//                        alignment: .leading
-//                    )
-//                    .padding(.horizontal)
+                    .frame(height: 200)
+                    .frame(width: 800, alignment: .center) // Align the content to the left
+                    .background(
+                        RoundedRectangle(cornerRadius: 20)
+                            .fill(
+                                LinearGradient(
+                                    gradient: Gradient(colors: [Color.blue.opacity(0.1), Color.blue.opacity(0.2)]),
+                                    startPoint: .topLeading,
+                                    endPoint: .bottomTrailing
+                                )
+                            )
+                            .shadow(color: Color.black.opacity(0.1), radius: 10, x: 0, y: 5)
+                    )
+                    .overlay(
+                        // Add a subtle border for a refined look
+                        RoundedRectangle(cornerRadius: 20)
+                            .stroke(Color.white.opacity(0.3), lineWidth: 1)
+                    )
+                    .foregroundColor(.black) // Set text color to black for better readability
+                    .padding(.top)
+                    .padding(.horizontal, 16)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+    
                 
                 Spacer()
                 
