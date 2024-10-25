@@ -1,42 +1,42 @@
 import SwiftUI
 import Charts
 
-//class ExamProgressViewModel: ObservableObject {
-//    @Published var totalProgressPerSection: [ExamSectionData] = []
-//    var bestPerformingSection: ExamSectionData? {
-//        totalProgressPerSection.max(by: { $0.progress < $1.progress })
-//    }
-//
-//    // Example static preview data
-//    static var preview: ExamProgressViewModel {
-//        let viewModel = ExamProgressViewModel()
-//
-//        // Declare the sections properly
-//        let math = "Math"
-//        let english = "English"
-//        let science = "Science"
-//
-//        viewModel.totalProgressPerSection = [
-//            ExamSectionData(section: ExamSection(math), progress: 85),
-//            ExamSectionData(section: ExamSection(english), progress: 70),
-//            ExamSectionData(section: ExamSection(science), progress: 95)
-//        ]
-//        return viewModel
-//    }
-//}
-//
-//struct ExamSectionData {
-//    var section: ExamSection
-//    var progress: Double
-//}
-//
-//struct ExamSection: Hashable {
-//    var displayName: String
-//
-//    init(_ name: String) {
-//        self.displayName = name
-//    }
-//}
+class ExamProgressViewModel: ObservableObject {
+    @Published var totalProgressPerSection: [ExamSectionData] = []
+    var bestPerformingSection: ExamSectionData? {
+        totalProgressPerSection.max(by: { $0.progress < $1.progress })
+    }
+
+    // Example static preview data
+    static var preview: ExamProgressViewModel {
+        let viewModel = ExamProgressViewModel()
+
+        // Declare the sections properly
+        let math = "Math"
+        let english = "English"
+        let science = "Science"
+
+        viewModel.totalProgressPerSection = [
+            ExamSectionData(section: ExamSection(math), progress: 85),
+            ExamSectionData(section: ExamSection(english), progress: 70),
+            ExamSectionData(section: ExamSection(science), progress: 95)
+        ]
+        return viewModel
+    }
+}
+
+struct ExamSectionData {
+    var section: ExamSection
+    var progress: Double
+}
+
+struct ExamSection: Hashable {
+    var displayName: String
+
+    init(_ name: String) {
+        self.displayName = name
+    }
+}
 
 import SwiftUI
 import Charts
