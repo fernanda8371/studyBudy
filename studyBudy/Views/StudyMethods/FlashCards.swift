@@ -34,7 +34,7 @@ struct FlashCards: View {
                         TabView {
                             ForEach(Array(zip(vm.cards.indices, vm.cards)), id: \.1.id) { index, card in
                                 FlashCard(text: $cardTexts[index])
-                                    .frame(width: UIScreen.main.bounds.width * 0.85, height: 500)
+                                    .frame(width: UIScreen.main.bounds.width * 0.85, height: 570)
                                     .cornerRadius(20)
                                     .padding(.horizontal, 10)
     
