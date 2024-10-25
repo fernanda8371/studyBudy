@@ -4,13 +4,13 @@
 //
 //  Created by José Ruiz on 24/10/24.
 //
-
 import SwiftUI
 
 struct TestApplyView: View {
     @State private var vm = CardViewModel()
-    @State private var cardTexts: [String] = [] // Array para almacenar los textos de las tarjetas
-    
+    @State private var cardTexts: [String] = []
+    @State private var newCardText = ""
+
     var body: some View {
         ZStack {
             // Fondo con un degradado
@@ -28,17 +28,35 @@ struct TestApplyView: View {
                 
                 // Carousel de flashcards
                 if !cardTexts.isEmpty {
-                    TabView {
-                        ForEach(Array(zip(vm.cards.indices, vm.cards)), id: \.1.id) { index, card in
-                            ExampleFlashCard(text: $cardTexts[index])
+                    ZStack(alignment: .topTrailing) {
+                        TabView {
+                            ForEach(Array(zip(vm.cards.indices, vm.cards)), id: \.1.id) { index, card in
+                                ExampleFlashCard(text: $cardTexts[index])
+                            }
                         }
+                        .tabViewStyle(PageTabViewStyle())
+                        .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
+                        .frame(height: 700)
+                        .padding(.bottom, 20)
+
+                        // Botón para añadir una nueva tarjeta
+                        Button(action: {
+                            // Añadir la nueva tarjeta al inicio del array
+                            let newCard = newCardText.isEmpty ? "Nueva tarjeta" : newCardText
+                            cardTexts.insert(newCard, at: 0)
+                            vm.addFlashCard(newText: newCard)
+                            newCardText = "" // Limpiar el texto después de agregar
+                        }) {
+                            Image(systemName: "plus.circle.fill")
+                                .font(.system(size: 45))
+                                .foregroundColor(.white)
+                                .shadow(radius: 5)
+                        }
+                        .padding(.trailing, 46)
+        
                     }
-                    .tabViewStyle(PageTabViewStyle())
-                    .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
-                    .frame(height: 700)
-                    .padding(.bottom, 20)
                 }
-                
+
                 // Mostrar un progress view si está cargando
                 if vm.isLoading {
                     ProgressView()

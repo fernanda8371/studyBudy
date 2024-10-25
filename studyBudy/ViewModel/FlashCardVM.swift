@@ -12,6 +12,19 @@ class CardViewModel {
     var cards: [Card] = []
     var isLoading: Bool = false
     var errorMessage: String? = nil
+    
+    
+    // Add flashcard
+    func addFlashCard(newText: String) {
+        
+        let newCard = Card(
+            id: UUID().uuidString, // generate id and other values
+            cardOwner: "OwnerName",
+            creationDate: Date().description, 
+            text: newText
+        )
+        cards.append(newCard)
+    }
 
 
     func fetchAllCards() async {

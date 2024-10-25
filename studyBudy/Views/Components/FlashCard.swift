@@ -8,7 +8,9 @@
 import SwiftUI
 
 struct FlashCard: View {
-    @Binding var text: String
+    @State var cardVM = CardViewModel()
+    @State private var currentCardText: String = "Cargando..."
+    @Binding var text : String
     
     var body: some View {
         ZStack {
@@ -51,11 +53,22 @@ struct FlashCard: View {
             }
             .frame(height: 500)
         }
+        .onAppear(){
+            Task {
+                await cardVM.fetchAllCards()
+                if let firstCard = cardVM.cards.first {
+                    currentCardText = firstCard.text
+                } else {
+                    currentCardText = "No se encontraron tarjetas."
+                }
+            }
+        }
     }
 }
 
 #Preview {
-    @Previewable @State var sampleText = "Sample flashcard text"
+    @Previewable @State var sampleText = "Texto de ejemplo para la tarjeta"
     FlashCard(text: $sampleText)
 }
+
 
