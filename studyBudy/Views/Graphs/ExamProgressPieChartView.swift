@@ -1,8 +1,10 @@
 import SwiftUI
 import Charts
+import Combine
 
 class ExamProgressViewModel: ObservableObject {
     @Published var totalProgressPerSection: [ExamSectionData] = []
+
     var bestPerformingSection: ExamSectionData? {
         totalProgressPerSection.max(by: { $0.progress < $1.progress })
     }
@@ -11,7 +13,6 @@ class ExamProgressViewModel: ObservableObject {
     static var preview: ExamProgressViewModel {
         let viewModel = ExamProgressViewModel()
         
-        // Declare the sections properly
         let math = "Math"
         let english = "English"
         let science = "Science"
@@ -22,6 +23,19 @@ class ExamProgressViewModel: ObservableObject {
             ExamSectionData(section: ExamSection(science), progress: 95)
         ]
         return viewModel
+    }
+    
+    // Method to add new progress data
+    func addProgress(sectionName: String, progress: Double) {
+        // Check if the section already exists in the progress data
+        if let index = totalProgressPerSection.firstIndex(where: { $0.section.displayName == sectionName }) {
+            // Update the existing section's progress
+            totalProgressPerSection[index].progress = progress
+        } else {
+            // Add a new section if it doesn't exist
+            let newSection = ExamSectionData(section: ExamSection(sectionName), progress: progress)
+            totalProgressPerSection.append(newSection)
+        }
     }
 }
 
@@ -38,51 +52,58 @@ struct ExamSection: Hashable {
     }
 }
 
-@available(macOS 14.0, *)
+@available(iOS 16.0, *)
 struct ExamProgressPieChartView: View {
-    
     @ObservedObject var examViewModel: ExamProgressViewModel
     
     var body: some View {
-        
-        Chart(examViewModel.totalProgressPerSection, id: \.section) { data in
-            SectorMark(
-                angle: .value("Progress", data.progress),
-                innerRadius: .ratio(0.618),  // Donut effect
-                angularInset: 1.5
-            )
-            .cornerRadius(5.0)
-            .foregroundStyle(by: .value("Section", data.section.displayName))
-            .opacity(data.section == examViewModel.bestPerformingSection?.section ? 1 : 0.3)
-        }
-        .chartLegend(alignment: .center, spacing: 18)
-        .aspectRatio(1, contentMode: .fit)
-        
-        .chartBackground { chartProxy in
-            GeometryReader { geometry in
-                let frame = geometry[chartProxy.plotFrame!]
+        VStack {
+            // Title for the chart
+            Text("Progress by Section")
+                .font(.headline)
+                .padding(.bottom, 10)
+            
+            if examViewModel.totalProgressPerSection.isEmpty {
+                Text("No progress data available")
+                    .foregroundColor(.gray)
+                    .padding()
+            } else {
+                // Donut chart for exam progress
+                Chart(examViewModel.totalProgressPerSection, id: \.section) { data in
+                    SectorMark(
+                        angle: .value("Progress", data.progress),
+                        innerRadius: .ratio(0.5),  // Donut effect
+                        angularInset: 1.5
+                    )
+                    .cornerRadius(5.0)
+                    .foregroundStyle(by: .value("Section", data.section.displayName))
+                    .opacity(data.section == examViewModel.bestPerformingSection?.section ? 1 : 0.5)
+                }
+                .aspectRatio(1, contentMode: .fit)
+                .chartLegend(.hidden) // Hide the default legend for a cleaner look
+                .padding()
                 
+                // Display the best-performing section inside the chart
                 if let bestPerformingSection = examViewModel.bestPerformingSection {
                     VStack {
-                        Text("Best Performing Section")
+                        Text("Top Section")
                             .font(.callout)
-                            .foregroundStyle(.secondary)
+                            .foregroundColor(.secondary)
                         Text(bestPerformingSection.section.displayName)
                             .font(.title2.bold())
                             .foregroundColor(.primary)
                         Text("\(Int(bestPerformingSection.progress))% completed")
                             .font(.callout)
-                            .foregroundStyle(.secondary)
+                            .foregroundColor(.secondary)
                     }
-                    .position(x: frame.midX, y: frame.midY)
                 }
             }
         }
+        .padding()
     }
 }
 
-@available(macOS 14.0, *)
+@available(iOS 16.0, *)
 #Preview {
     ExamProgressPieChartView(examViewModel: .preview)
 }
-

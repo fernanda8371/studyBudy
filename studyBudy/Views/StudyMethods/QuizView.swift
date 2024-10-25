@@ -181,7 +181,7 @@ struct QuizView: View {
     }
     
     // Función para verificar la respuesta
-    private func checkAnswer(selected: String, correct: String) {
+    public func checkAnswer(selected: String, correct: String) {
         let normalizedCorrect = correct.lowercased()
         let normalizedSelected = selected.lowercased()
         

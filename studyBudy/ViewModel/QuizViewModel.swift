@@ -69,4 +69,9 @@ class QuizViewModel {
         return "\(question)"
     }
     
+    func getProgress(for correctAnswers: Int, totalQuestions: Int) -> Double {
+            guard totalQuestions > 0 else { return 0.0 }
+            return (Double(correctAnswers) / Double(totalQuestions)) * 100
+        }
+    
 }
