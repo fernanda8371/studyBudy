@@ -17,7 +17,7 @@ struct QuizView: View {
             // Background gradient
             LinearGradient(gradient: Gradient(colors: [Color(hex: "#21548D"), Color(hex: "#4A90E2")]),
                            startPoint: .topLeading, endPoint: .bottomTrailing)
-                .ignoresSafeArea()
+            .ignoresSafeArea()
             
             VStack {
                 
@@ -49,7 +49,7 @@ struct QuizView: View {
                             .font(.system(size: 20))
                             .foregroundColor(Color(hex: "#21548D"))
                             .padding()
-                            //.background(Color.white)
+                        //.background(Color.white)
                             .cornerRadius(10)
                             .padding(.bottom, 10)
                         
@@ -81,13 +81,37 @@ struct QuizView: View {
                             }
                         }
                         .padding(.vertical, 10)
-
+                    }
+                    .padding()
+                    .background(Color.white.opacity(0.8))
+                    .cornerRadius(15)
+                    .padding(.horizontal, 16)
+                    
+                    HStack(spacing: 15) {
+                        // Show "Anterior" only if it's not the first question
+                        if currentIndex > 0 {
+                            Button(action: {
+                                if currentIndex > 0 {
+                                    currentIndex -= 1
+                                    answerResult = nil // Clear result when going back
+                                }
+                            }) {
+                                Text("Anterior")
+                                    .font(.system(size: 18, weight: .bold))
+                                    .padding()
+                                    .frame(maxWidth: .infinity)
+                                    .background(Color.gray.opacity(0.8))
+                                    .foregroundColor(.white)
+                                    .cornerRadius(10)
+                                    .shadow(radius: 5)
+                            }
+                        }
                         
-                        // Botón para pasar a la siguiente pregunta
+                        // Always show "Siguiente"
                         Button(action: {
                             if currentIndex < firstQuiz.text.count - 1 {
                                 currentIndex += 1
-                                answerResult = nil // Limpiar el resultado al pasar a la siguiente pregunta
+                                answerResult = nil // Clear result when moving to the next question
                             } else {
                                 print("Terminaste el quiz")
                             }
@@ -101,12 +125,9 @@ struct QuizView: View {
                                 .cornerRadius(10)
                                 .shadow(radius: 5)
                         }
-                        .padding(.top, 20)
                     }
-                    .padding()
-                    .background(Color.white.opacity(0.8))
-                    .cornerRadius(15)
-                    .padding(.horizontal, 16)
+                    .padding(.top, 20)
+                    .padding(.horizontal, 18)
                 } else {
                     Text("No hay preguntas disponibles")
                         .foregroundColor(.white)
@@ -114,6 +135,7 @@ struct QuizView: View {
                         .background(Color.white.opacity(0.2))
                         .cornerRadius(10)
                 }
+                
             }
             .onAppear {
                 Task {
