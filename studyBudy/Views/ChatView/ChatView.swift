@@ -45,10 +45,10 @@ struct ChatView: View {
     @ObservedObject var chatModel = ChatModel()
     @State private var isProEnabled: Bool = false // Toggle state
     @State private var showProInfo: Bool = false // Estado para mostrar el cuadro de información
-	
-	// Propiedades para manejar la selección de imagen
-	@State private var showImagePicker: Bool = false
-	@State private var selectedImage: UIImage? = nil
+    
+    // Propiedades para manejar la selección de imagen
+    @State private var showImagePicker: Bool = false
+    @State private var selectedImage: UIImage? = nil
     
     init(selectedTab: Binding<Int>, isTabViewNavigation: Bool) {
         self._selectedTab = selectedTab
@@ -83,16 +83,10 @@ struct ChatView: View {
                                 .foregroundColor(.black)
                             Image("lorenzoIcon")
                                 .resizable()
-                            .frame(width: 80, height: 80)
-                            VStack{
-                                
+                                .frame(width: 80, height: 80)
+                            VStack {
                                 Text("Buddy AI")
                                     .font(.title)
-                                    .bold()
-                                    .foregroundColor(.black)
-                                Text("Ayúdate")
-                                    
-                                    .font(.subheadline)
                                     .bold()
                                     .foregroundColor(.black)
                             }
@@ -101,9 +95,14 @@ struct ChatView: View {
                     .navigationBarBackButtonHidden(true)
                     .padding()
                     Spacer()
-                    
                 }
-                BudyCardView()
+                
+                // Cuadro de información (BudyCardView) que aparece y desaparece
+                if showProInfo {
+                    BudyCardView()
+                        .animation(.smooth, value: showProInfo)
+                }
+                
                 ScrollViewReader { scrollProxy in
                     ScrollView {
                         ForEach(chatModel.messages) { message in
@@ -113,7 +112,7 @@ struct ChatView: View {
                                     Text(message.text)
                                         .padding()
                                         .background(Color.gray.opacity(0.2))
-										.foregroundColor(.black)
+                                        .foregroundColor(.black)
                                         .cornerRadius(10)
                                         .shadow(radius: 1)
                                 } else {
@@ -160,14 +159,15 @@ struct ChatView: View {
                 // Input box and Pro toggle
                 VStack(spacing: 5) {
                     HStack {
-						Button(action: {
-							showImagePicker.toggle() // Abre el selector de imagen
-							}) {
-							Image(systemName: "photo")
-							.font(.system(size: 20))
-							.foregroundColor(.black)
-							.padding(.leading)
-						}
+                        Button(action: {
+                            showImagePicker.toggle() // Abre el selector de imagen
+                        }) {
+                            Image(systemName: "photo")
+                                .font(.system(size: 20))
+                                .foregroundColor(.black)
+                                .padding(.leading)
+                        }
+                        
                         // TextField
                         TextField("", text: $chatModel.inputText)
                             .placeholder(when: chatModel.inputText.isEmpty) {
@@ -203,7 +203,9 @@ struct ChatView: View {
                             // Bufy-Pro toggle and info button
                             HStack(spacing: 10) {
                                 Button(action: {
-                                    showProInfo.toggle() // Toggle to show/hide info
+                                    withAnimation {
+                                        showProInfo.toggle() // Toggle para mostrar/ocultar info
+                                    }
                                 }) {
                                     Image(systemName: "info.circle")
                                         .font(.system(size: 20))
@@ -213,12 +215,10 @@ struct ChatView: View {
                                 Spacer()
                                 Image(systemName: "sparkles")
                                     .font(.system(size: 20))
-                                    .foregroundColor(isProEnabled ? .blue : .gray)
-                                    .scaleEffect(isProEnabled ? 1.2 : 1.0)
+                                    .foregroundColor(.gray)
                                 
-                              
-                                    .toggleStyle(SwitchToggleStyle(tint: .blue))
-                                    .labelsHidden()
+                                .toggleStyle(SwitchToggleStyle(tint: .blue))
+                                .labelsHidden()
                             }
                         }
                     }
@@ -234,30 +234,11 @@ struct ChatView: View {
             .toolbarBackground(.clear, for: .tabBar)
             .toolbar(.hidden, for: .tabBar)
             
-			// Presentar ImagePicker como una hoja
-						.sheet(isPresented: $showImagePicker) {
-							ImagePicker(image: $selectedImage, isShown: $showImagePicker) { image in
-								chatModel.uploadImage(image: image) // Llama al método para enviar la imagen
-							}
-						}
-			
-            if showProInfo {
-                VStack {
-                    Spacer()
-                    HStack {
-                        Spacer()
-                        BubbleView {
-                            Text("**Buddy es un modelo entrenado para ayudarte a estudiar y generar quizes con tu informacion.")
-                                .font(.caption)
-                                .foregroundColor(.white)
-                                .padding(8)
-                        }
-                        .frame(width: 250)
-                        .offset(x: -45, y: -100) // Ajustado para estar justo arriba del ícono
-                        Spacer().frame(width: 30)
-                    }
+            // Presentar ImagePicker como una hoja
+            .sheet(isPresented: $showImagePicker) {
+                ImagePicker(image: $selectedImage, isShown: $showImagePicker) { image in
+                    chatModel.uploadImage(image: image) // Llama al método para enviar la imagen
                 }
-                .zIndex(1) // Asegura que esté en la capa superior
             }
         }
     }
@@ -274,109 +255,71 @@ struct ChatView: View {
 }
 
 struct ImagePicker: UIViewControllerRepresentable {
-	@Binding var image: UIImage?
-	@Binding var isShown: Bool
-	var onImagePicked: (UIImage) -> Void
+    @Binding var image: UIImage?
+    @Binding var isShown: Bool
+    var onImagePicked: (UIImage) -> Void
 
-	func makeCoordinator() -> Coordinator {
-		return Coordinator(self)
-	}
-
-	func makeUIViewController(context: Context) -> UIImagePickerController {
-		let picker = UIImagePickerController()
-		picker.delegate = context.coordinator
-		return picker
-	}
-
-	func updateUIViewController(_ uiViewController: UIImagePickerController, context: Context) {
-		// No se necesita implementar
-	}
-
-	class Coordinator: NSObject, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
-		var parent: ImagePicker
-		
-		init(_ parent: ImagePicker) {
-			self.parent = parent
-		}
-		
-		func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-			if let uiImage = info[.originalImage] as? UIImage {
-				parent.onImagePicked(uiImage)
-			}
-			parent.isShown = false
-		}
-		
-		func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-			parent.isShown = false
-		}
-	}
-}
-
-// Vista para la "burbuja" de información
-struct BubbleView<Content: View>: View {
-    var content: Content
-    
-    init(@ViewBuilder content: () -> Content) {
-        self.content = content()
+    func makeCoordinator() -> Coordinator {
+        return Coordinator(self)
     }
-    
-    var body: some View {
-        VStack(spacing: 0) {
-            content
-                .background(Color.black.opacity(0.7))
-                .cornerRadius(10)
-            // La "flecha" de la burbuja
-            Triangle()
-                .fill(Color.black.opacity(0.7))
-                .frame(width: 20, height: 10)
-                .rotationEffect(.degrees(180))
+
+    func makeUIViewController(context: Context) -> UIImagePickerController {
+        let picker = UIImagePickerController()
+        picker.delegate = context.coordinator
+        return picker
+    }
+
+    func updateUIViewController(_ uiViewController: UIImagePickerController, context: Context) {
+        // No se necesita implementar
+    }
+
+    class Coordinator: NSObject, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+        var parent: ImagePicker
+        
+        init(_ parent: ImagePicker) {
+            self.parent = parent
         }
-    }
-}
-
-// Forma de triángulo para la flecha
-struct Triangle: Shape {
-    func path(in rect: CGRect) -> Path {
-        var path = Path()
-        path.move(to: CGPoint(x: rect.minX, y: rect.maxY))
-        path.addLine(to: CGPoint(x: rect.midX, y: rect.minY))
-        path.addLine(to: CGPoint(x: rect.maxX, y: rect.maxY))
-        path.closeSubpath()
-        return path
+        
+        func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+            if let uiImage = info[.originalImage] as? UIImage {
+                parent.onImagePicked(uiImage)
+            }
+            parent.isShown = false
+        }
+        
+        func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+            parent.isShown = false
+        }
     }
 }
 
 struct BudyCardView: View {
     var body: some View {
-        HStack {
-            // Imagen a la izquierda (puedes reemplazar con la imagen real)
-            Image("lorenzoIcon")
-                .resizable()
-                .frame(width: 80, height: 80)
-                .padding(.leading, 10)
-            
-            VStack(alignment: .leading) {
-                Text("Buddy")
+        VStack(alignment: .leading) {
+            HStack {
+                Text("¿Qué hace Buddy?")
                     .font(.title)
                     .bold()
                     .foregroundColor(.white)
-                
-                Text("Ayúdate de Buddy para resumir tu información, hacer preguntas y prepararte mejor!")
-                    .foregroundColor(.white)
-                    .font(.body)
-                    .padding(.top, 2)
+                Spacer()
+                Image("homeBudy")
+                    .resizable()
+                    .frame(width: 70, height: 70)
+                    .foregroundColor(.black)
             }
-            .padding(.leading, 10)
             
-            Spacer()
+            Text("Ayúdate de Buddy para resumir tu información, hacer preguntas y prepararte mejor! \nSube una imagen y Buddy generará un quiz de 5 preguntas sobre la imagen!")
+                .foregroundColor(.white)
+                .font(.system(size: 14))
         }
         .padding()
         .background(Color(hex: "86CB8C"))
         .cornerRadius(20)
         .shadow(radius: 5)
-        .frame(width: 334, height: 168)
+        .frame(width: 334, height: 200)
     }
 }
+
 
 
 struct ContentView_Previews: PreviewProvider {
@@ -384,4 +327,3 @@ struct ContentView_Previews: PreviewProvider {
         ChatView(selectedTab: .constant(0), isTabViewNavigation: true)
     }
 }
-

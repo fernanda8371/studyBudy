@@ -1,6 +1,12 @@
 import SwiftUI
+import FirebaseAuth
+import GoogleSignIn
 
 struct HomeView: View {
+    @AppStorage("mongo_user_name") var mongoUserName: String = "" // Nombre del usuario guardado
+    @AppStorage("mongo_user_email") var mongoUserEmail: String = "" // Email del usuario
+    @AppStorage("log_status") var logStatus: Bool = false // Estado de inicio de sesión
+
     init() {
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
@@ -11,11 +17,9 @@ struct HomeView: View {
     }
 
     var body: some View {
-        
         GeometryReader { geometry in
-            
             VStack(alignment: .leading) {
-                // Header con saludo
+                // Header con saludo y datos de usuario desde AppStorage
                 HStack {
                     Image(systemName: "person.circle.fill")
                         .resizable()
@@ -23,18 +27,17 @@ struct HomeView: View {
                         .foregroundColor(.yellow)
                     
                     VStack(alignment: .leading) {
-                        Text("Hola Lorenzo")
+                        // Mostrar el nombre del usuario autenticado
+                        Text("Hola \(mongoUserName)") // Usando el valor de AppStorage
                             .font(.title)
-                        .bold()
+                            .bold()
+                        
                         Text("¿Cómo quieres empezar a estudiar?")
                             .font(.subheadline)
                             .foregroundColor(.gray)
                     }
                     
-  
-                    
                     Spacer()
-                    
                     
                 }
                 .padding(.horizontal)
@@ -69,21 +72,21 @@ struct HomeView: View {
                     .padding(.horizontal)
                 
                 ScrollView(.horizontal, showsIndicators: false) {
-                                    HStack(spacing: 16) {
-                                        NavigationLink(destination: PomodoroView()) {
-                                            StudyTechniqueView(imageName: "timer", title: "Pomodoro", action: "Empezar")
-                                        }
+                    HStack(spacing: 16) {
+                        NavigationLink(destination: PomodoroView()) {
+                            StudyTechniqueView(imageName: "timer", title: "Pomodoro", action: "Empezar")
+                        }
 
-                                        StudyTechniqueView(imageName: "book", title: "Método Cornell", action: "Empezar")
+                        StudyTechniqueView(imageName: "book", title: "Método Cornell", action: "Empezar")
 
-                                        NavigationLink(destination: FlashCards()) {
-                                            StudyTechniqueView(imageName: "brain.head.profile", title: "Active recall", action: "Empezar")
-                                        }
+                        NavigationLink(destination: FlashCards()) {
+                            StudyTechniqueView(imageName: "brain.head.profile", title: "Active recall", action: "Empezar")
+                        }
 
-                                        StudyTechniqueView(imageName: "pencil", title: "Edición", action: "Empezar")
-                                    }
-                                    .padding(.horizontal)
-                                }
+                        StudyTechniqueView(imageName: "pencil", title: "Edición", action: "Empezar")
+                    }
+                    .padding(.horizontal)
+                }
                 
                 // Progreso de perfil
                 RoundedRectangle(cornerRadius: 15)
@@ -100,6 +103,27 @@ struct HomeView: View {
                 
                 Spacer()
                 
+                // Botón para cerrar sesión
+                Button(action: {
+                    signOut() // Cerrar sesión
+                }) {
+                    HStack {
+                        Spacer()
+                        Text("Cerrar sesión")
+                            .foregroundColor(.red)
+                            .bold()
+                        Spacer()
+                    }
+                    .padding()
+                    .background(Color.white)
+                    .cornerRadius(15)
+                    .shadow(radius: 5)
+                    .padding(.horizontal)
+                }
+                
+                .padding()
+
+                
                 // Barra de navegación (simulada para esta vista)
                 HStack {
                     TabBarButton(imageName: "house.fill", title: "Inicio")
@@ -111,6 +135,19 @@ struct HomeView: View {
                 .padding(.horizontal)
                 .padding(.bottom, 10)
             }
+        }
+    }
+    func signOut() {
+        logStatus = false
+        mongoUserName = ""
+        mongoUserEmail = ""
+        
+        do {
+            try Auth.auth().signOut()
+            GIDSignIn.sharedInstance.signOut()
+            print("Sesión cerrada correctamente")
+        } catch {
+            print("Error al cerrar sesión: \(error.localizedDescription)")
         }
     }
 }
@@ -180,9 +217,6 @@ struct TabBarButton: View {
     }
 }
 
-// Extensión para utilizar colores hexadecimales en SwiftUI
-
-
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
@@ -193,4 +227,3 @@ struct HomeView_Previews: PreviewProvider {
         }
     }
 }
-
