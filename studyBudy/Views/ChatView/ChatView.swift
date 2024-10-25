@@ -49,11 +49,12 @@ struct ChatView: View {
     // Propiedades para manejar la selección de imagen
     @State private var showImagePicker: Bool = false
     @State private var selectedImage: UIImage? = nil
+    @AppStorage("mongo_user_name") var mongoUserName: String = ""
     
     init(selectedTab: Binding<Int>, isTabViewNavigation: Bool) {
         self._selectedTab = selectedTab
         self.isTabViewNavigation = isTabViewNavigation
-        let welcomeMessage = "Hola, soy Buddy. ¿En qué puedo ayudarte hoy?"
+        let welcomeMessage = "Hola, \(mongoUserName) soy Buddy. ¿En qué puedo ayudarte hoy?"
         chatModel.messages.append(ChatMessage(text: welcomeMessage, isUser: false))
         
         // Personalización de la barra de navegación
