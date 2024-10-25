@@ -11,21 +11,23 @@ struct QuizView: View {
     @State private var quizVM = QuizViewModel()
     @State private var currentIndex: Int = 0 // Índice para la pregunta actual
     @State private var answerResult: String? = nil // Estado para mostrar si es correcto o incorrecto
+    @State private var correctAnswers: Int = 0 // Contador de respuestas correctas
+    @State private var quizFinished: Bool = false // Indica si el quiz ha terminado
     
     var body: some View {
         ZStack {
             // Background gradient
             LinearGradient(gradient: Gradient(colors: [Color(hex: "#21548D"), Color(hex: "#4A90E2")]),
                            startPoint: .topLeading, endPoint: .bottomTrailing)
-            .ignoresSafeArea()
+                .ignoresSafeArea()
             
             VStack {
-                
                 Text("Quiz")
                     .font(.system(size: 50))
                     .foregroundStyle(Color.white)
                     .bold()
                     .padding(.bottom, 30)
+                
                 if quizVM.isLoading {
                     ProgressView("Cargando quizzes...")
                         .foregroundColor(.white)
@@ -38,6 +40,38 @@ struct QuizView: View {
                         .background(Color.white.opacity(0.8))
                         .cornerRadius(10)
                         .padding(.horizontal)
+                } else if quizFinished {
+                    // Show the final result when the quiz is finished
+                    VStack(spacing: 20) {
+                        Text("¡Has terminado el quiz!")
+                            .font(.system(size: 28, weight: .bold))
+                            .foregroundColor(.white)
+                            .padding()
+                        
+                        Text("Respuestas correctas: \(correctAnswers) de \(quizVM.quizes.first?.text.count ?? 0)")
+                            .font(.system(size: 24))
+                            .foregroundColor(Color(hex: "#21548D"))
+                            .padding()
+                            .background(Color.white)
+                            .cornerRadius(15)
+                            .padding(.horizontal, 16)
+                        
+                        Button(action: {
+                            restartQuiz()
+                        }) {
+                            Text("Reiniciar Quiz")
+                                .font(.system(size: 18, weight: .bold))
+                                .padding()
+                                .frame(maxWidth: .infinity)
+                                .background(Color.blue.opacity(0.8))
+                                .foregroundColor(.white)
+                                .cornerRadius(15)
+                                .shadow(radius: 5)
+                        }
+                        .padding(.top, 20)
+                        .padding(.horizontal, 18)
+                        .frame(width: 365)
+                    }
                 } else if let firstQuiz = quizVM.quizes.first, currentIndex < firstQuiz.text.count {
                     VStack(alignment: .leading, spacing: 15) {
                         Text("Pregunta \(currentIndex + 1)")
@@ -49,7 +83,6 @@ struct QuizView: View {
                             .font(.system(size: 20))
                             .foregroundColor(Color(hex: "#21548D"))
                             .padding()
-                        //.background(Color.white)
                             .cornerRadius(10)
                             .padding(.bottom, 10)
                         
@@ -88,12 +121,12 @@ struct QuizView: View {
                     .padding(.horizontal, 16)
                     
                     HStack(spacing: 15) {
-                        // Show "Anterior" only if it's not the first question
+                        // Solo muestra anterior despues de la primera respuesta
                         if currentIndex > 0 {
                             Button(action: {
                                 if currentIndex > 0 {
                                     currentIndex -= 1
-                                    answerResult = nil // Clear result when going back
+                                    answerResult = nil //cuando te regresas borra la respuesta
                                 }
                             }) {
                                 Text("Anterior")
@@ -111,9 +144,9 @@ struct QuizView: View {
                         Button(action: {
                             if currentIndex < firstQuiz.text.count - 1 {
                                 currentIndex += 1
-                                answerResult = nil // Clear result when moving to the next question
+                                answerResult = nil
                             } else {
-                                print("Terminaste el quiz")
+                                quizFinished = true 
                             }
                         }) {
                             Text("Siguiente")
@@ -154,9 +187,18 @@ struct QuizView: View {
         
         if normalizedSelected == normalizedCorrect {
             answerResult = "Correcto"
+            correctAnswers += 1
         } else {
             answerResult = "Incorrecto"
         }
+    }
+    
+    // Función para reiniciar el quiz
+    private func restartQuiz() {
+        currentIndex = 0
+        correctAnswers = 0
+        answerResult = nil
+        quizFinished = false
     }
 }
 
