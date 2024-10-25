@@ -42,7 +42,7 @@ struct HomeView: View {
                     VStack(alignment: .leading) {
                         // Mostrar el nombre del usuario autenticado
                         Text("Hola \(mongoUserName)") // Usando el valor de AppStorage
-                            .font(.title)
+                            .font(.title3)
                             .bold()
                         
                         Text("¿Cómo quieres empezar a estudiar?")
@@ -53,6 +53,8 @@ struct HomeView: View {
                     Spacer()
                     
                 }
+                .padding(.top)
+
                 .padding(.horizontal)
                 
                 // Sesión de estudio
@@ -63,7 +65,7 @@ struct HomeView: View {
                         HStack {
                             VStack(alignment: .leading) {
                                 Text("Sesión de estudio")
-                                    .font(.headline)
+                                    .font(.title3)
                                     .foregroundColor(.black)
                                 Text("¿Cómo vas a estudiar hoy?")
                                     .font(.subheadline)
@@ -77,11 +79,13 @@ struct HomeView: View {
                         }
                         .padding(.horizontal)
                     )
+                    .padding(.top)
+
                     .padding(.horizontal)
                 
                 // Sección de técnicas de estudio
                 Text("Técnicas de estudio")
-                    .font(.headline)
+                    .font(.title3)
                     .padding(.horizontal)
                 
                 ScrollView(.horizontal, showsIndicators: false) {
@@ -100,12 +104,25 @@ struct HomeView: View {
 
                         StudyTechniqueView(imageName: "pencil", title: "Edición", action: "Empezar")
                     }
+                    .padding(.top)
+
                     .padding(.horizontal)
                 }
                 
                 ExamProgressPieChartView()
-                                   .frame(height: 300)
-                                   .padding()
+                                    .frame(height: 200)
+                                    .frame(width: 800, alignment: .leading) // Alineación a la izquierda
+                                    .background(
+                                        RoundedRectangle(cornerRadius: 20)
+                                            .fill(Color.gray.opacity(0.2)) // Color personalizado
+                                            .shadow(color: Color.black.opacity(0.1), radius: 10, x: 0, y: 5)
+                                    )
+                                    .foregroundColor(.black) // Cambié el color del texto a negro para mayor legibilidad
+                                    .padding(.top)
+
+                                    .padding()
+                                    .frame(maxWidth: .infinity, alignment: .leading) // Asegura que el contenido esté alineado a la izquierda
+           
                 
                 // Progreso de perfil
 //                RoundedRectangle(cornerRadius: 15)
