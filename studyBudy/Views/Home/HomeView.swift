@@ -109,8 +109,8 @@ struct HomeView: View {
                 }
                 
                 ExamProgressPieChartView()
-                    .frame(height: 200)
-                    .frame(width: 800, alignment: .center) // Align the content to the left
+                    .frame(width: geometry.size.width * (UIDevice.current.userInterfaceIdiom == .pad ? 0.95 : 0.9), height: 200)
+                   
                     .background(
                         RoundedRectangle(cornerRadius: 20)
                             .fill(
