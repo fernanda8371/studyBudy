@@ -41,57 +41,44 @@ struct ExamSection: Hashable {
 struct ExamProgressPieChartView: View {
     
     let progressDistribution: [String: Double] = [
-        "Cálculo": 85,
-        "Programación": 70,
-        "Física": 95
-    ]
-    
-    var body: some View {
-        VStack(alignment: .center, spacing: 20) {
-            // Título para la gráfica
-            Text("Progreso de Aprendizaje")
-                .font(.title2)
-                .bold()
-                .foregroundColor(.primary)
-                .padding(.top, 10)
-            
-            HStack(alignment: .top, spacing: 30) {
-                // Sección de la leyenda con el detalle del progreso
-                VStack(alignment: .leading, spacing: 12) {
-                    ForEach(progressDistribution.sorted(by: { $0.key < $1.key }), id: \.key) { section, progress in
-                        HStack {
-                            Circle()
-                                .fill(color(for: section))
-                                .frame(width: 12, height: 12)
-                            
-                            Text("\(section): \(Int(progress))%")
+            "Cálculo": 85,
+            "Programación": 70,
+            "Física": 95
+        ]
+        
+        var body: some View {
+            VStack(alignment: .center, spacing: 20) {
+                // Título para la gráfica
+                Text("Progreso de Aprendizaje")
+                    .font(.title2)
+                    .bold()
+                    .foregroundColor(.primary)
+                    .padding(.top, 10)
+                
+                if #available(iOS 16.0, *) {
+                    Chart(progressDistribution.sorted(by: { $0.key < $1.key }), id: \.key) { section, progress in
+                        BarMark(
+                            x: .value("Progreso", progress), y: .value("Asignatura", section)
+                        )
+                        .foregroundStyle(color(for: section))
+                        
+                        // Overlay Text for the percentage
+                        .annotation(position: .trailing) {
+                            Text("\(Int(progress))%")
                                 .font(.subheadline)
                                 .foregroundColor(.primary)
                                 .bold()
                         }
                     }
-                }
-                
-                // Gráfica tipo donut con un radio interno para el efecto de anillo
-                if #available(iOS 16.0, *) {
-                    Chart(progressDistribution.sorted(by: { $0.key < $1.key }), id: \.key) { section, progress in
-                        SectorMark(
-                            angle: .value("Progreso", progress),
-                            innerRadius: .ratio(0.5), // Donut effect
-                            angularInset: 1.5
-                        )
-                        .foregroundStyle(color(for: section))
-                    }
-                    .aspectRatio(1, contentMode: .fit)
-                    .frame(maxWidth: 200)
+                    .frame(height: 120)
+                    .frame(width: 250)
+                    .padding(.horizontal, 20)
+                } else {
+                    Text("Bar chart requires iOS 16.0 or newer.")
                 }
             }
-            .padding(.horizontal, 20)
+            .padding()
         }
-        .padding()
-        
-        .padding(.horizontal)
-    }
     
     // Helper function for colors
     func color(for subject: String) -> Color {

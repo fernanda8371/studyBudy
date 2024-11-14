@@ -11,11 +11,14 @@ struct PomodoroView: View {
     @State private var studyTime: Int = 25 * 60
     @State private var shortBreak: Int = 5 * 60
     @State private var longBreak: Int = 15 * 60
+    @State private var totalPomodoros: Int = 8
+    @State private var completedPomodoros: Int = 0
     @State private var showTimerView: Bool = false
-    
+    @State private var showChartView: Bool = false
+
     var body: some View {
         GeometryReader { geometry in
-            VStack(alignment: .center, spacing: 20) { // Espaciado global entre elementos
+            VStack(alignment: .center, spacing: 20) {
                 Spacer()
                 
                 Image("tomato")
@@ -86,9 +89,33 @@ struct PomodoroView: View {
                         .cornerRadius(12)
                 }
                 .padding(.top, 30)
-                .fullScreenCover(isPresented: $showTimerView) {
-                    TimerView(studyTime: studyTime, shortBreakTime: shortBreak, longBreakTime: longBreak)
-                }
+//                .fullScreenCover(isPresented: $showTimerView) {
+//                    TimerView(
+//                        studyTime: studyTime,
+//                        shortBreakTime: shortBreak,
+//                        longBreakTime: longBreak,
+//                        onPomodoroCompleted: {
+//                            completedPomodoros += 1 // Update count when a Pomodoro is completed
+//                        }
+//                    )
+//                }
+//
+//                // Navigate to Chart View Button
+//                Button(action: {
+//                    showChartView.toggle()
+//                }) {
+//                    Text("Ver Progreso")
+//                        .font(.title2)
+//                        .bold()
+//                        .frame(width: geometry.size.width * 0.8, height: 60)
+//                        .background(Color.blue)
+//                        .foregroundColor(.white)
+//                        .cornerRadius(12)
+//                }
+//                .padding(.top, 10)
+//                .fullScreenCover(isPresented: $showChartView) {
+//                    PomodoroChartView(completedPomodoros: completedPomodoros, totalPomodoros: totalPomodoros)
+//                }
                 
                 Spacer()
             }
@@ -103,6 +130,5 @@ struct PomodoroView_Previews: PreviewProvider {
         PomodoroView()
     }
 }
-
 
 

@@ -7,12 +7,12 @@ struct HomeView: View {
     @AppStorage("mongo_user_name") var mongoUserName: String = "" // Nombre del usuario guardado
     @AppStorage("mongo_user_email") var mongoUserEmail: String = "" // Email del usuario
     @AppStorage("log_status") var logStatus: Bool = false // Estado de inicio de sesión
-
+    
     //@StateObject private var examViewModel = ExamProgressViewModel()
     
     @State private var selectedChart: ChartType?
     @State private var showAlert = false
-
+    
     enum ChartType: Identifiable {
         case progressView
         
@@ -20,16 +20,16 @@ struct HomeView: View {
             hashValue
         }
     }
-        
+    
     init() {
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
         appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
-     
+        
         UINavigationBar.appearance().standardAppearance = appearance
         UINavigationBar.appearance().scrollEdgeAppearance = appearance
     }
-
+    
     var body: some View {
         GeometryReader { geometry in
             ZStack {
@@ -54,7 +54,7 @@ struct HomeView: View {
                             }
                             
                             Spacer()
-
+                            
                             Button(action: {
                                 showAlert = true
                             }) {
@@ -62,7 +62,7 @@ struct HomeView: View {
                                     Circle()
                                         .fill(Color.blue)
                                         .frame(width: 55, height: 55)
-                                        
+                                    
                                     
                                     Image(systemName: "rectangle.portrait.and.arrow.right")
                                         .resizable()
@@ -143,9 +143,13 @@ struct HomeView: View {
                             .padding(.horizontal)
                         }
                         
-                        ExamProgressPieChartView()
+                        HStack{
+                            
+                            PomodoroMetric(completedPomodoros: 4, totalPomodoros: 5)
+                            ExamProgressPieChartView()
+                            
+                        }.padding()
                             .frame(width: geometry.size.width * (UIDevice.current.userInterfaceIdiom == .pad ? 0.95 : 0.9), height: 200)
-                        
                             .background(
                                 RoundedRectangle(cornerRadius: 20)
                                     .fill(
@@ -157,24 +161,13 @@ struct HomeView: View {
                                     )
                                     .shadow(color: Color.black.opacity(0.1), radius: 10, x: 0, y: 5)
                             )
-                            .overlay(
-                                // Add a subtle border for a refined look
-                                RoundedRectangle(cornerRadius: 20)
-                                    .stroke(Color.white.opacity(0.3), lineWidth: 1)
-                            )
-                            .foregroundColor(.black) // Set text color to black for better readability
-                            .padding(.top)
-                            .padding(.horizontal, 16)
-                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(.horizontal)
                     }
                 }
-                
-                // Botón para cerrar sesión en la esquina inferior derecha
-
             }
         }
     }
-
+    
     func signOut() {
         logStatus = false
         mongoUserName = ""

@@ -1,7 +1,6 @@
 //  FlashCardVM.swift
 //  studyBudy
 //
-//  Created by José Ruiz on 24/10/24.
 //
 
 import Foundation
@@ -12,7 +11,7 @@ class CardViewModel {
     var isLoading: Bool = false
     var errorMessage: String? = nil
     
-    // Fetch all cards from the API
+
     func fetchAllCards() async {
         isLoading = true
         errorMessage = nil
