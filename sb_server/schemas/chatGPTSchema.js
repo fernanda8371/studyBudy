@@ -3,7 +3,7 @@ const OpenAI = require("openai");
 // let threadId = null;
 
 const openai = new OpenAI({
-  apiKey: process.env.OPENAI_KEY,
+  apiKey: process.env.OPENAI_API_KEY,
   organization: "org-FSuVnhJmnpoo2Z0dKeYXAzIj",
 });
 
