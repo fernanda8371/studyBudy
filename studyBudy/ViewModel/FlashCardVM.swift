@@ -1,4 +1,3 @@
-//
 //  FlashCardVM.swift
 //  studyBudy
 //
@@ -12,49 +11,42 @@ class CardViewModel {
     var isLoading: Bool = false
     var errorMessage: String? = nil
     
-    
-    // Add flashcard
-    func addFlashCard(newText: String) {
-        
-        let newCard = Card(
-            id: UUID().uuidString, // generate id and other values
-            //cardOwner: "OwnerName",
-            creationDate: Date().description, 
-            text: newText
-        )
-        cards.append(newCard)
-        saveCardToStorage(card: newCard)
-    }
-    
-    private func saveCardToStorage(card: Card) {
-        // Aquí puedes implementar la lógica para guardar la tarjeta
-        // en un almacenamiento persistente (CoreData, UserDefaults, Firebase, etc.)
-        // Por ejemplo:
-        print("Tarjeta guardada: \(card.text)")
-    }
-
 
     func fetchAllCards() async {
         isLoading = true
         errorMessage = nil
-
-        let action = CardRouter.GetAllCards()
-        do {
-
-            let response = try await ActionClient.dispatch(action)
-            
-
-            if response.isSuccess() {
-                self.cards = response.data ?? []
-            } else {
-                self.errorMessage = "Fallo en la carga de tarjetas"
-            }
-        } catch {
-
-            self.errorMessage = "Error al obtener las tarjetas: \(error.localizedDescription)"
+        
+        let baseURL2 = "http://localhost:3000/api/cards" // Change to remote URL if needed
+        
+        guard let url2 = URL(string: baseURL2) else {  // Fixed variable name here
+            self.errorMessage = "Invalid URL"
+            isLoading = false
+            return
         }
         
-
+        var request = URLRequest(url: url2)
+        request.httpMethod = "GET"
+        
+        do {
+            let (data, response) = try await URLSession.shared.data(for: request)
+            
+            // Check if the response is valid (HTTP status code 200)
+            guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+                self.errorMessage = "Failed to load cards"
+                isLoading = false
+                return
+            }
+            
+            // Parse the response data into the card model
+            let decoder = JSONDecoder()
+            let decodedCards = try decoder.decode([Card].self, from: data)
+            
+            // Update the cards array
+            self.cards = decodedCards
+        } catch {
+            self.errorMessage = "Error fetching cards: \(error.localizedDescription)"
+        }
+        
         isLoading = false
     }
 }
