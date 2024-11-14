@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-// Enumeración para los diferentes estados del Pomodoro
 enum PomodoroState {
     case study
     case shortBreak
@@ -18,6 +17,7 @@ struct TimerView: View {
     let studyTime: Int
     let shortBreakTime: Int
     let longBreakTime: Int
+    var onPomodoroCompleted: (() -> Void)? = nil // Optional closure to notify study completion
     
     @State private var timeRemaining: Int
     @State private var isPaused: Bool = false
@@ -26,10 +26,11 @@ struct TimerView: View {
     @State private var cycleCount: Int = 0
     @Environment(\.presentationMode) var presentationMode
     
-    init(studyTime: Int, shortBreakTime: Int, longBreakTime: Int) {
+    init(studyTime: Int, shortBreakTime: Int, longBreakTime: Int, onPomodoroCompleted: (() -> Void)? = nil) {
         self.studyTime = studyTime
         self.shortBreakTime = shortBreakTime
         self.longBreakTime = longBreakTime
+        self.onPomodoroCompleted = onPomodoroCompleted
         _timeRemaining = State(initialValue: studyTime)
     }
     
@@ -134,6 +135,7 @@ struct TimerView: View {
         switch currentState {
         case .study:
             cycleCount += 1
+            onPomodoroCompleted?() // Notify the completion of a study session
             if cycleCount == 4 {
                 currentState = .longBreak
                 timeRemaining = longBreakTime
