@@ -12,12 +12,10 @@ const quizSchema = new Schema(
     text: {
       type: [String], // Array of text items
       required: true,
-      validate: [arrayLimit, "Text must have at least 1 element"], // Optional validation for minimum array length
     },
     answer: {
       type: [String], // Array of answers
       required: true,
-      validate: [arrayLimit, "Answer must have at least 1 element"], // Optional validation for minimum array length
     },
     creation_date: {
       type: Date,
@@ -30,5 +28,5 @@ const quizSchema = new Schema(
 );
 
 // Create and export the model
-const Quiz = mongoose.model("Quiz", quizSchema);
+const Quiz = mongoose.model("Quizes", quizSchema); // Use "Quizes" as the model name
 module.exports = Quiz;

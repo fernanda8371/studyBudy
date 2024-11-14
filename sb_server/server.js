@@ -6,7 +6,7 @@ const connectDB = require("./config/db");
 
 const chatGPTRoutes = require("./routes/chatGPTRoutes");
 const cardsRoutes = require("./routes/cardsRoutes");
-const quizRoutes = require("../controllers/quizRoutes");
+const quizRoutes = require("./routes/quizRoutes");
 
 dotenv.config();
 

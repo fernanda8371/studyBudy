@@ -1,10 +1,10 @@
-const Quiz = require("../shemas/quizSchema"); // Import the Quiz model
+const Quiz = require("../schemas/quizSchema"); // Import the Quiz model
 
 // Get all quizzes
 const getQuizzes = async (req, res) => {
   try {
-    const quizzes = await Quiz.find(); // Fetch all quizzes from the database
-    res.status(200).json(quizzes); // Respond with a 200 status and the quizzes
+    const quizes = await Quiz.find(); // Fetch all quizzes from the database
+    res.status(200).json(quizes); // Respond with a 200 status and the quizzes
   } catch (err) {
     console.error("Error fetching quizzes:", err);
     res.status(500).json({ message: "Error fetching quizzes" }); // Internal server error if fetching fails
