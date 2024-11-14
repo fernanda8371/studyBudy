@@ -129,7 +129,7 @@ struct HomeView: View {
                                     StudyTechniqueView(imageName: "brain.head.profile", title: "Active recall", action: "Empezar")
                                 }
                                 NavigationLink(destination: FlashCards()) {
-                                    StudyTechniqueView(imageName: "figure.cooldown", title: "Active recall", action: "Empezar")
+                                    StudyTechniqueView(imageName: "figure.cooldown", title: "Cornell", action: "Empezar")
                                 }
                                 NavigationLink(destination: FlashCards()) {
                                     StudyTechniqueView(imageName: "tortoise.circle", title: "Active recall", action: "Empezar")
@@ -162,6 +162,7 @@ struct HomeView: View {
                                     .shadow(color: Color.black.opacity(0.1), radius: 10, x: 0, y: 5)
                             )
                             .padding(.horizontal)
+                            .padding(.top, 40)
                     }
                 }
             }
