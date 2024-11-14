@@ -16,15 +16,15 @@ class CardViewModel {
         isLoading = true
         errorMessage = nil
         
-        let baseURL2 = "http://localhost:3000/api/cards" // Change to remote URL if needed
+        let baseURL = "https://api-sb-rust.vercel.app/cards" // Change to remote URL if needed
         
-        guard let url2 = URL(string: baseURL2) else {  // Fixed variable name here
+        guard let url = URL(string: baseURL) else {  // Fixed variable name here
             self.errorMessage = "Invalid URL"
             isLoading = false
             return
         }
         
-        var request = URLRequest(url: url2)
+        var request = URLRequest(url: url)
         request.httpMethod = "GET"
         
         do {

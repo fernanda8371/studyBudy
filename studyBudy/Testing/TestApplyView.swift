@@ -44,7 +44,7 @@ struct TestApplyView: View {
                             // Añadir la nueva tarjeta al inicio del array
                             let newCard = newCardText.isEmpty ? "Nueva tarjeta" : newCardText
                             cardTexts.insert(newCard, at: 0)
-                            vm.addFlashCard(newText: newCard)
+                            //m.addFlashCard(newText: newCard)
                             newCardText = "" // Limpiar el texto después de agregar
                         }) {
                             Image(systemName: "plus.circle.fill")
