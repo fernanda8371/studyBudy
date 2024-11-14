@@ -89,33 +89,16 @@ struct PomodoroView: View {
                         .cornerRadius(12)
                 }
                 .padding(.top, 30)
-//                .fullScreenCover(isPresented: $showTimerView) {
-//                    TimerView(
-//                        studyTime: studyTime,
-//                        shortBreakTime: shortBreak,
-//                        longBreakTime: longBreak,
-//                        onPomodoroCompleted: {
-//                            completedPomodoros += 1 // Update count when a Pomodoro is completed
-//                        }
-//                    )
-//                }
-//
-//                // Navigate to Chart View Button
-//                Button(action: {
-//                    showChartView.toggle()
-//                }) {
-//                    Text("Ver Progreso")
-//                        .font(.title2)
-//                        .bold()
-//                        .frame(width: geometry.size.width * 0.8, height: 60)
-//                        .background(Color.blue)
-//                        .foregroundColor(.white)
-//                        .cornerRadius(12)
-//                }
-//                .padding(.top, 10)
-//                .fullScreenCover(isPresented: $showChartView) {
-//                    PomodoroChartView(completedPomodoros: completedPomodoros, totalPomodoros: totalPomodoros)
-//                }
+                .fullScreenCover(isPresented: $showTimerView) {
+                    TimerView(
+                        studyTime: studyTime,
+                        shortBreakTime: shortBreak,
+                        longBreakTime: longBreak,
+                        onPomodoroCompleted: {
+                            completedPomodoros += 1 // Update count when a Pomodoro is completed
+                        }
+                    )
+                }
                 
                 Spacer()
             }
@@ -130,5 +113,3 @@ struct PomodoroView_Previews: PreviewProvider {
         PomodoroView()
     }
 }
-
-
