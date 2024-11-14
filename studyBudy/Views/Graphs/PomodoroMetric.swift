@@ -8,7 +8,7 @@
 import SwiftUI
 import Charts
 
-struct PomodoroChartView: View {
+struct PomodoroMetric: View {
     let completedPomodoros: Int
     let totalPomodoros: Int
     
@@ -24,47 +24,51 @@ struct PomodoroChartView: View {
     }
     
     var body: some View {
-        VStack(alignment: .center, spacing: 20) {
-            Text("Progreso de Pomodoros")
-                .font(.title2)
-                .bold()
-                .foregroundColor(.primary)
-                .padding(.top, 10)
-            
-            Chart(data, id: \.type) { dataItem in
-                SectorMark(
-                    angle: .value("Pomodoros", dataItem.amount),
-                    innerRadius: .ratio(0.5),
-                    angularInset: 1.5
-                )
-                .foregroundStyle(color(for: dataItem.type))
-                .cornerRadius(5)
-            }
-            .frame(height: 200)
-            .padding(.horizontal, 20)
-            
-            VStack(alignment: .leading, spacing: 10) {
-                HStack {
-                    Circle()
-                        .fill(color(for: "Completed"))
-                        .frame(width: 12, height: 12)
-                    Text("Completos: \(completedPomodoros)")
-                        .font(.subheadline)
-                        .foregroundColor(.primary)
+            VStack(alignment: .center, spacing: 20) {
+                Text("Progreso de Pomodoros")
+                    .font(.title2)
+                    .bold()
+                    .foregroundColor(.primary)
+                    .padding(.top, 10)
+                
+                HStack(spacing: 20) { // Spacing between chart and labels
+                    // Chart
+                    Chart(data, id: \.type) { dataItem in
+                        SectorMark(
+                            angle: .value("Pomodoros", dataItem.amount),
+                            innerRadius: .ratio(0.5),
+                            angularInset: 1.5
+                        )
+                        .foregroundStyle(color(for: dataItem.type))
+                        .cornerRadius(5)
+                    }
+                    .frame(width: 120, height: 120) // Adjusted for a compact, balanced look
+                    
+                    // Status Labels
+                    VStack(alignment: .leading, spacing: 12) {
+                        HStack {
+                            Circle()
+                                .fill(color(for: "Completed"))
+                                .frame(width: 12, height: 12)
+                            Text("Completos: \(completedPomodoros)")
+                                .font(.subheadline)
+                                .foregroundColor(.primary)
+                        }
+                        HStack {
+                            Circle()
+                                .fill(color(for: "Remaining"))
+                                .frame(width: 12, height: 12)
+                            Text("Pausados: \(remainingPomodoros)")
+                                .font(.subheadline)
+                                .foregroundColor(.primary)
+                        }
+                    }
                 }
-                HStack {
-                    Circle()
-                        .fill(color(for: "Remaining"))
-                        .frame(width: 12, height: 12)
-                    Text("Pausados: \(remainingPomodoros)")
-                        .font(.subheadline)
-                        .foregroundColor(.primary)
-                }
+                .padding(.horizontal, 20)
             }
-            .padding(.top, 10)
+            .padding()
+
         }
-        .padding()
-    }
 
     func color(for type: String) -> Color {
         switch type {
@@ -79,5 +83,5 @@ struct PomodoroChartView: View {
 }
 
 #Preview {
-    PomodoroChartView(completedPomodoros: 3, totalPomodoros: 8)
+    PomodoroMetric(completedPomodoros: 3, totalPomodoros: 8)
 }

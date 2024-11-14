@@ -18,7 +18,7 @@ class CardViewModel {
         
         let newCard = Card(
             id: UUID().uuidString, // generate id and other values
-            cardOwner: "OwnerName",
+            //cardOwner: "OwnerName",
             creationDate: Date().description, 
             text: newText
         )
