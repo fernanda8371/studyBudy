@@ -128,7 +128,7 @@ struct HomeView: View {
                                 NavigationLink(destination: FlashCards()) {
                                     StudyTechniqueView(imageName: "brain.head.profile", title: "Active recall", action: "Empezar")
                                 }
-                                NavigationLink(destination: FlashCards()) {
+                                NavigationLink(destination: CornellView()) {
                                     StudyTechniqueView(imageName: "figure.cooldown", title: "Active recall", action: "Empezar")
                                 }
                                 NavigationLink(destination: FlashCards()) {
