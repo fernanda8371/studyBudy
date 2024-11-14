@@ -11,15 +11,15 @@ class ExamProgressViewModel: ObservableObject {
     static var preview: ExamProgressViewModel {
         let viewModel = ExamProgressViewModel()
 
-        // Declare the sections properly
-        let math = "Math"
-        let english = "English"
-        let science = "Science"
-
+        // Asignaturas universitarias
+        let calculus = "Cálculo"
+        let programming = "Programación"
+        let physics = "Física"
+        
         viewModel.totalProgressPerSection = [
-            ExamSectionData(section: ExamSection(math), progress: 85),
-            ExamSectionData(section: ExamSection(english), progress: 70),
-            ExamSectionData(section: ExamSection(science), progress: 95)
+            ExamSectionData(section: ExamSection(calculus), progress: 85),
+            ExamSectionData(section: ExamSection(programming), progress: 70),
+            ExamSectionData(section: ExamSection(physics), progress: 95)
         ]
         return viewModel
     }
@@ -41,9 +41,9 @@ struct ExamSection: Hashable {
 struct ExamProgressPieChartView: View {
     
     let progressDistribution: [String: Double] = [
-        "Math": 85,
-        "English": 70,
-        "Science": 95
+        "Cálculo": 85,
+        "Programación": 70,
+        "Física": 95
     ]
     
     var body: some View {
@@ -92,15 +92,16 @@ struct ExamProgressPieChartView: View {
         
         .padding(.horizontal)
     }
-    // Helper function for lighter colors
+    
+    // Helper function for colors
     func color(for subject: String) -> Color {
         switch subject {
-        case "Math":
-            return Color(hex: "FFC107") // Strong yellow for Math
-        case "English":
-            return Color(hex: "2196F3") // Strong blue for English
-        case "Science":
-            return Color(hex: "4CAF50")
+        case "Cálculo":
+            return Color(hex: "FFC107") // Strong yellow for Cálculo
+        case "Programación":
+            return Color(hex: "2196F3") // Strong blue for Programación
+        case "Física":
+            return Color(hex: "4CAF50") // Green for Física
             
         default:
             return Color.gray
@@ -108,9 +109,6 @@ struct ExamProgressPieChartView: View {
     }
 }
 
-
-
 #Preview {
     ExamProgressPieChartView()
 }
-

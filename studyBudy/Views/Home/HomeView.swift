@@ -128,6 +128,16 @@ struct HomeView: View {
                                 NavigationLink(destination: FlashCards()) {
                                     StudyTechniqueView(imageName: "brain.head.profile", title: "Active recall", action: "Empezar")
                                 }
+                                NavigationLink(destination: FlashCards()) {
+                                    StudyTechniqueView(imageName: "figure.cooldown", title: "Active recall", action: "Empezar")
+                                }
+                                NavigationLink(destination: FlashCards()) {
+                                    StudyTechniqueView(imageName: "tortoise.circle", title: "Active recall", action: "Empezar")
+                                }
+                                NavigationLink(destination: FlashCards()) {
+                                    StudyTechniqueView(imageName: "hand.point.up.braille", title: "Active recall", action: "Empezar")
+                                }
+                                
                             }
                             .padding(.top)
                             .padding(.horizontal)
