@@ -17,9 +17,9 @@ struct ChartsView: View {
                 List {
                     Section {
                         VStack(alignment: .leading, spacing: 10) {
-                            Text("Progreso de Pomodoros")
-                                .font(.headline)
-                                .padding(.leading, 10)
+                            //Text("Progreso de Pomodoros")
+//                                .font(.headline)
+//                                .padding(.leading, 10)
 
                             PomodoroMetric(completedPomodoros: 4, totalPomodoros: 5)
                         }
@@ -34,9 +34,9 @@ struct ChartsView: View {
                         .padding(.top, 20)
 
                         VStack(alignment: .leading, spacing: 10) {
-                            Text("Progreso de Aprendizaje")
-                                .font(.headline)
-                                .padding(.leading, 10)
+//                            Text("Progreso de Aprendizaje")
+//                                .font(.headline)
+//                                .padding(.leading, 10)
 
                             ExamProgressPieChartView()
                         }
