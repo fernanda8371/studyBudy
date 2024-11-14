@@ -89,17 +89,17 @@ struct PomodoroView: View {
                         .cornerRadius(12)
                 }
                 .padding(.top, 30)
-//                .fullScreenCover(isPresented: $showTimerView) {
-//                    TimerView(
-//                        studyTime: studyTime,
-//                        shortBreakTime: shortBreak,
-//                        longBreakTime: longBreak,
-//                        onPomodoroCompleted: {
-//                            completedPomodoros += 1 // Update count when a Pomodoro is completed
-//                        }
-//                    )
-//                }
-//
+                .fullScreenCover(isPresented: $showTimerView) {
+                    TimerView(
+                        studyTime: studyTime,
+                        shortBreakTime: shortBreak,
+                        longBreakTime: longBreak,
+                        onPomodoroCompleted: {
+                            completedPomodoros += 1 // Update count when a Pomodoro is completed
+                        }
+                    )
+                }
+
 //                // Navigate to Chart View Button
 //                Button(action: {
 //                    showChartView.toggle()
@@ -130,5 +130,3 @@ struct PomodoroView_Previews: PreviewProvider {
         PomodoroView()
     }
 }
-
-
